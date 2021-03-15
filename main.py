@@ -3,6 +3,8 @@ import pandas as pd
 import openpyxl
 import openpyxl.styles
 from openpyxl.styles import Font, Border
+import time
+from datetime import date
 
 possible_name_reasons = ["הערת אזהרה סעיף 621",
                          "צוואה על פי הסכם", "ירושה על פי הסכם", "על פי הסכם",
@@ -31,10 +33,10 @@ def pdf_to_txt(file):
     df = pd.DataFrame(lines)
     excel_file_name = file[:-4] + " result.xlsx"
     df.to_excel(excel_file_name)
-    information_extractor(excel_file_name)
+    information_extractor(excel_file_name, file[:-4])
 
 
-def information_extractor(excelFile):
+def information_extractor(excelFile, file_name):
     book = openpyxl.load_workbook(r'C:\Users\Nadav\PycharmProjects\TaboAccessibility/' + excelFile)
     sheet = book.active
 
@@ -162,6 +164,9 @@ def information_extractor(excelFile):
     sheet.cell(row=1, column=8).font = Font(size=11, bold=True)
 
     book.save(excelFile)
+    information_file = open("InformationFile.txt", "w")
+    information_file.write(file_name + " " + str(date.today().strftime("%d/%m/%Y")) + " " + str(time.strftime("%H:%M:%S", time.localtime())))
+    information_file.close()
 
 
 def find_name_shared_rights(info):
@@ -274,7 +279,7 @@ def find_company_name_shared_rights(info):
     for reason in possible_company_name_reasons:
         if reason in info:
             info = info[:info.find(reason)]
-            
+
     info = " ".join(info.split())
 
     print(info)
