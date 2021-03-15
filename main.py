@@ -16,8 +16,8 @@ possible_name_reasons = ["הערת אזהרה סעיף 621",
                          "העברת שכירות ללא תמורה", "העברת שכירות", "שכירות",
                          "בשלמות", "עודף", "צוואה", "שנוי שם",
                          "תיקון טעות סופר",
-                         "תיקון צו בית משותף", "לפי צו בית משפט"]
-possible_company_name_reasons = ['הערת אזהרה תמ"א 83', "הערת אזהרה סעיף 621", "מכר"]
+                         "תיקון צו בית משותף", "לפי צו בית משפט", "רישום בית משותף"]
+possible_company_name_reasons = ['הערת אזהרה תמ"א 83', "הערת אזהרה סעיף 621", "מכר", "לטובת", "רישום בית משותף"]
 
 
 #Converting every line in the pdf into a line into an excel it created with the name of the pdf + "result"
@@ -178,8 +178,19 @@ def information_extractor(excelFile, file_name):
                 print(info)
 
                 if type_of_file == 1:
-                    # Find the passport and putting it in the excel
-                    passport_value = info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1]
+                    #Find the passport and putting it in the excel (more complicated check, ID comes in multiple lengths)
+                    if " " in info[info.find("+ןוכרד") - 9:info.find("+ןוכרד") - 1]:
+                        passport_value = info[info.find("ןוכרד") - 8:info.find("ןוכרד") - 1]
+                    elif " " in info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1]:
+                        passport_value = info[info.find("ןוכרד") - 9:info.find("ןוכרד") - 1]
+                    elif " " in info[info.find("ןוכרד") - 11:info.find("ןוכרד") - 1]:
+                        passport_value = info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1]
+                    elif " " in info[info.find("ןוכרד") - 12:info.find("ןוכרד") - 1]:
+                        passport_value = info[info.find("ןוכרד") - 11:info.find("ןוכרד") - 1]
+                    elif " " in info[info.find("ןוכרד") - 13:info.find("ןוכרד") - 1]:
+                        passport_value = info[info.find("ןוכרד") - 12:info.find("ןוכרד") - 1]
+                    else:
+                        passport_value = info[info.find("ןוכרד") - 13:info.find("ןוכרד") - 1]
                     sheet.cell(row=passport_count, column=7).value = passport_value
                     sheet.cell(row=passport_count, column=7).font = Font(size=11, bold=False)
 
@@ -190,7 +201,7 @@ def information_extractor(excelFile, file_name):
 
                     #Printing for debugging
                     print(passport_value)
-                    print(info[info.find("ןוכרד") + 5:info.find("ןוכרד") + find_passport_name_shared_homes(info)][::-1])
+                    print(passport_name_value)
                 #Adding 1 to the index of where the program will write
                 passport_count += 1
 
@@ -283,8 +294,12 @@ def find_passport_name_shared_homes(info):
     length = 5
     info = info[info.find("ןוכרד") + 5:]
 
+    info = " ".join(info.split())
+
     length += info.find(" ") + 1
     info = info[info.find(" ") + 1:]
+
+    info = " ".join(info.split())
 
     info = info[::-1]
     print(info)
@@ -355,6 +370,7 @@ def find_file_type(info):
         return 0
 
 
-pdf_to_txt('269.pdf')
-# print(find_name_shared_rights(info))
-# print(info[info.find("ז.ת") + 3:info.find("ז.ת") + find_name_shared_rights(info)][::-1])
+pdf_to_txt('209.pdf')
+#print(find_passport_name_shared_homes(info))
+#print(info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1])
+#print(info[info.find("ןוכרד") + 5:info.find("ןוכרד") + find_passport_name_shared_homes(info)][::-1])
