@@ -164,8 +164,8 @@ def information_extractor(excelFile, file_name):
     sheet.cell(row=1, column=8).font = Font(size=11, bold=True)
 
     book.save(excelFile)
-    information_file = open("InformationFile.txt", "w")
-    information_file.write(file_name + " " + str(date.today().strftime("%d/%m/%Y")) + " " + str(time.strftime("%H:%M:%S", time.localtime())))
+    information_file = open("InformationFile.txt", "a")
+    information_file.write("\n" + file_name + " " + str(date.today().strftime("%d/%m/%Y")) + " " + str(time.strftime("%H:%M:%S", time.localtime())))
     information_file.close()
 
 
