@@ -16,7 +16,7 @@ possible_name_reasons = ["הערת אזהרה סעיף 621",
                          "העברת שכירות ללא תמורה", "העברת שכירות", "שכירות",
                          "בשלמות", "עודף", "צוואה", "שנוי שם",
                          "תיקון טעות סופר",
-                         "תיקון צו בית משותף", "לפי צו בית משפט", "רישום בית משותף"]
+                         "תיקון צו בית משותף", "לפי צו בית משפט", "רישום בית משותף", "הערה על צורך בהסכמה סעיף"]
 possible_company_name_reasons = ['הערת אזהרה תמ"א 83', "הערת אזהרה סעיף 621", "מכר", "לטובת", "רישום בית משותף"]
 
 
@@ -25,7 +25,6 @@ def pdf_to_txt(file):
     lines = []
     with pdfplumber.open(file) as pdf:
         pages = pdf.pages
-
         for page in pages:
             text = page.extract_text()
             for line in text.split('\n'):
@@ -179,7 +178,7 @@ def information_extractor(excelFile, file_name):
 
                 if type_of_file == 1:
                     #Find the passport and putting it in the excel (more complicated check, ID comes in multiple lengths)
-                    if " " in info[info.find("+ןוכרד") - 9:info.find("+ןוכרד") - 1]:
+                    if " " in info[info.find("ןוכרד") - 9:info.find("ןוכרד") - 1]:
                         passport_value = info[info.find("ןוכרד") - 8:info.find("ןוכרד") - 1]
                     elif " " in info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1]:
                         passport_value = info[info.find("ןוכרד") - 9:info.find("ןוכרד") - 1]
@@ -370,7 +369,7 @@ def find_file_type(info):
         return 0
 
 
-pdf_to_txt('209.pdf')
+pdf_to_txt('453.pdf')
 #print(find_passport_name_shared_homes(info))
 #print(info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1])
 #print(info[info.find("ןוכרד") + 5:info.find("ןוכרד") + find_passport_name_shared_homes(info)][::-1])
