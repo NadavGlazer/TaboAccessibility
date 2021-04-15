@@ -5,42 +5,46 @@ import openpyxl.styles
 from openpyxl.styles import Font, Border
 import time
 from datetime import date
+import json
 
-possible_name_reasons = ["הערת אזהרה סעיף 621",
-                         "צוואה על פי הסכם", "ירושה על פי הסכם", "על פי הסכם",
-                         'צו ניהול ע"י אפוטרופוס',
-                         "עדכון פרטי זיהוי - חוכר", "עדכון פרטי זיהוי",
-                         "תיקון טעות סופר",
-                         "מכר ללא תמורה", "מכר לפי צו בית משפט", "מכר",
-                         "משכנתה", "ירושה",
-                         "העברת שכירות ללא תמורה", "העברת שכירות", "שכירות",
-                         "בשלמות", "עודף", "צוואה", "שנוי שם",
-                         "תיקון טעות סופר",
-                         "תיקון צו בית משותף", "לפי צו בית משפט", "רישום בית משותף", "הערה על צורך בהסכמה סעיף"]
-possible_company_name_reasons = ['הערת אזהרה תמ"א 83', "הערת אזהרה סעיף 621", "מכר", "לטובת", "רישום בית משותף"]
+# TODO: add .gitignore to this file - read more about this type of file and reach me out if you need me
 
+# TODO: please move those const to JSON file called config
 
-#Converting every line in the pdf into a line into an excel it created with the name of the pdf + "result"
+# TODO: Please read on PEP8 how constants should look on python
+# Converting every line in the pdf into a line into an excel it created with the name of the pdf + "result"
+
 def pdf_to_txt(file):
+    # TODO: please create a function docstring to all the functions - use """ and then press enter where this line is located
     lines = []
     with pdfplumber.open(file) as pdf:
+        # TODO: you use pages only once, remove this and replace the for loop with this line:
+        # for page in pdf.pages:
         pages = pdf.pages
         for page in pages:
             text = page.extract_text()
+            #  TODO: make the '\n' a constant \ configable
             for line in text.split('\n'):
                 lines.append(line)
 
+    # TODO: if you use a var once, consider just removing it, unless it made for readability - but thats not the case
+    # TODO: please change "df" var to be more informative. "df" is not understandable.
     df = pd.DataFrame(lines)
+    # TODO: please explaine why you used the "-4" and consider to move it to a constant
     excel_file_name = file[:-4] + " result.xlsx"
     df.to_excel(excel_file_name)
+    # TODO: you already has a var that contains file[:-4], why not to use it? why to calculate it again?
     information_extractor(excel_file_name, file[:-4])
 
 
 #Gets the excel file and checks for the information
+# TODO: excelFile is not formatted as var names should be in python. read more about it on PEP8.
 def information_extractor(excelFile, file_name):
+    # TODO: move this path to a config file
     book = openpyxl.load_workbook(r'C:\Users\Nadav\PycharmProjects\TaboAccessibility/' + excelFile)
     sheet = book.active
 
+    # TODO: move to config
     people_count = 2
     company_count = 2
     passport_count = 2
@@ -54,10 +58,12 @@ def information_extractor(excelFile, file_name):
             result = find_file_type(cell.internal_value)
             if result == 1:
                 type_of_file = result
+                # TODO: create a function for this, this is a redundant code
                 sheet.cell(row=1, column=10).value = "סוג קובץ:"
                 sheet.cell(row=1, column=10).font = Font(size=11, bold=True)
                 sheet.cell(row=2, column=10).value = "בתים משותפים"
                 sheet.cell(row=2, column=10).font = Font(size=11, bold=False)
+                # TODO: make sure to explain those breaks
                 break
             elif result == 2:
                 type_of_file = result
@@ -66,10 +72,14 @@ def information_extractor(excelFile, file_name):
                 sheet.cell(row=2, column=10).value = "פנקס זכויות"
                 sheet.cell(row=2, column=10).font = Font(size=11, bold=False)
                 break
+    # TODO: create type_of_file var before the for loop and on the top of this function. it's best practice
     print(type_of_file)
 
     #Resetting the design on the cells
+    # TODO: a_row is not an informative name, I guess this is the a row of the excel - please add a comment to explain it
+    # TODO: please add comments to explain more of your code - I saw you add some, but please make sure to add more
     for cell in a_row:
+        # TODO: there is some redundant code here, consider moving it to a function
         cell.value = None
         cell.font = Font(size=11, bold=False)
         cell.border = Border()
@@ -81,6 +91,7 @@ def information_extractor(excelFile, file_name):
         cell.border = Border()
         if isinstance(info, str):
             #Checking if there`s ID in the line
+
             if "ז.ת" in info:
                 info = info + " "
                 info = " ".join(info.split())
@@ -204,7 +215,11 @@ def information_extractor(excelFile, file_name):
                 #Adding 1 to the index of where the program will write
                 passport_count += 1
 
+    # def f(sheet, row: int, col: int, value: str):
+    #     pass
+
     #Adding titles
+    # TODO: please make a function for this
     sheet.cell(row=1, column=1).value = "ת.ז"
     sheet.cell(row=1, column=1).font = Font(size=11, bold=True)
     sheet.cell(row=1, column=2).value = "שם"
@@ -250,21 +265,27 @@ def find_name_shared_rights(info):
 #Returning the string without the reason in order to find the name
 def name_reason_filtering_shared_rights(info):
     index_of_reason = 0
-    global possible_name_reasons
-    for reason in possible_name_reasons:
+    json_file = open('config.json', encoding="utf8")
+    data = json.load(json_file)
+
+    for reason in data['possible_name_reasons']:
         if reason in info:
             index_of_reason = info.find(reason) + len(reason)
             break
+    json_file.close()
     return index_of_reason
 
 
 #Returning the string without the reason in order to find the name
 def name_reason_filtering_shared_homes(info):
-    global possible_name_reasons
-    for reason in possible_name_reasons:
+    json_file = open('config.json', encoding="utf8")
+    data = json.load(json_file)
+
+    for reason in data['possible_name_reasons']:
         if reason in info:
             info = info.replace(reason, "")
             break
+    json_file.close()
     return info
 
 
@@ -322,10 +343,14 @@ def find_company_name_shared_homes(info):
 
     info = info[::-1]
     print(info)
-    for reason in possible_company_name_reasons:
+
+    json_file = open('config.json', encoding="utf8")
+    data = json.load(json_file)
+
+    for reason in data['possible_company_name_reasons']:
         if reason in info:
             info = info.replace(reason, "")
-
+    json_file.close()
     info = " ".join(info.split())
 
     print(info)
@@ -345,10 +370,13 @@ def find_company_name_shared_rights(info):
     info = info[::-1]
     print(info)
 
-    for reason in possible_company_name_reasons:
+    json_file = open('config.json', encoding="utf8")
+    data = json.load(json_file)
+
+    for reason in data['possible_company_name_reasons']:
         if reason in info:
             info = info[:info.find(reason)]
-
+    json_file.close()
     info = " ".join(info.split())
 
     print(info)
@@ -369,7 +397,9 @@ def find_file_type(info):
         return 0
 
 
-pdf_to_txt('453.pdf')
+pdf_to_txt('352.pdf')
 #print(find_passport_name_shared_homes(info))
 #print(info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1])
 #print(info[info.find("ןוכרד") + 5:info.find("ןוכרד") + find_passport_name_shared_homes(info)][::-1])
+
+
