@@ -10,5 +10,10 @@
                          "תיקון טעות סופר",
                          "תיקון צו בית משותף", "לפי צו בית משפט", "רישום בית משותף", "הערה על צורך בהסכמה סעיף"],
   "possible_company_name_reasons" : ["הערת אזהרה תמ\"א 83", "הערת אזהרה סעיף 621", "מכר", "לטובת", "רישום בית משותף"],
-  "excel_row_information_start" : 2
+  "excel_row_information_start" : 2,
+  "path" : "C:\\Users\\Nadav\\PycharmProjects\\TaboAccessibility/",
+  "hebrew_ID" : "ז.ת",
+  "hebrew_Company" : "הרבח",
+  "hebrew_Mortgage" : "התנכשמ",
+  "hebrew_passport" : "ןוכרד"
 }
