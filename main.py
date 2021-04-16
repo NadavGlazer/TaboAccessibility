@@ -27,7 +27,6 @@ def pdf_to_txt(file):
 
     file_type = 0
 
-    lines = []
     with pdfplumber.open(file) as pdf:
         for page in pdf.pages:
             text = page.extract_text()
@@ -40,15 +39,14 @@ def pdf_to_txt(file):
                         have_found_file_type = True
                         file_type = 2
                 else:
-                    added_row = trying(line, file_type, sheet,
-                                          people_row_count, company_row_count, passport_row_count)
+                    added_row = line_information_extractor(
+                        line, file_type, sheet, people_row_count, company_row_count, passport_row_count)
                     if added_row == 1:
                         people_row_count += 1
                     elif added_row == 2:
                         company_row_count += 1
                     elif added_row == 3:
                         passport_row_count += 1
-                    lines.append(line)
 
         # Adding titles
     write_excel_titles(sheet)
@@ -59,18 +57,13 @@ def pdf_to_txt(file):
     # Adding the information to the information file
     write_data_in_information_file(file[:-4])
 
-    #temporary_excel = pd.DataFrame(lines)
-    #removing the .pfd and replacing it with its new name and file type
-    #excel_file_name = file[:-4] + " result.xlsx"
-    #temporary_excel.to_excel(excel_file_name)
-    #information_extractor(excel_file_name, file[:-4])
 
-
-def trying(info, type_of_file, sheet, people_row_count, company_row_count, passport_row_count):
+def line_information_extractor(info, type_of_file, sheet, people_row_count, company_row_count, passport_row_count):
+    """getting a line and checking if a certain information is in it then writing it in the excel"""
     json_file = open('config.json', encoding="utf8")
     json_data = json.load(json_file)
 
-    return_string = 0
+    row_added = 0
 
     if isinstance(info, str):
 
@@ -218,7 +211,7 @@ def trying(info, type_of_file, sheet, people_row_count, company_row_count, passp
     return return_string
 
 
-def information_extractor(excel_file, file_name):
+def file_information_extractor(excel_file, file_name):
     """Gets the excel file and checks for the information and writes the data in the excel"""
     json_file = open('config.json', encoding="utf8")
     json_data = json.load(json_file)
@@ -390,6 +383,7 @@ def information_extractor(excel_file, file_name):
 
 
 def write_data_in_information_file(file_name):
+    """writes in the information file the file name, and time of executing"""
     information_file = open("InformationFile.txt", "a")
     information_file.write("\n" + file_name + " " + str(date.today().strftime("%d/%m/%Y")) + " " + str(time.strftime("%H:%M:%S", time.localtime())))
     information_file.close()
