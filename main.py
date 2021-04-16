@@ -26,7 +26,7 @@ def pdf_to_txt(file):
     passport_row_count = json_data['excel_row_information_start']
 
     file_type = 0
-
+    added_row = 0
     with pdfplumber.open(file) as pdf:
         for page in pdf.pages:
             text = page.extract_text()
@@ -76,18 +76,10 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
 
             if type_of_file == 1:
                 # Find the ID and putting it in the excel (more complicated check, ID comes in multiple lengths)
-                if " " in info[info.find(json_data['hebrew_ID']) - 9:info.find(json_data['hebrew_ID']) - 1]:
-                    id_value = info[info.find(json_data['hebrew_ID']) - 8:info.find(json_data['hebrew_ID']) - 1]
-                elif " " in info[info.find(json_data['hebrew_ID']) - 10:info.find(json_data['hebrew_ID']) - 1]:
-                    id_value = info[info.find(json_data['hebrew_ID']) - 9:info.find(json_data['hebrew_ID']) - 1]
-                elif " " in info[info.find(json_data['hebrew_ID']) - 11:info.find(json_data['hebrew_ID']) - 1]:
-                    id_value = info[info.find(json_data['hebrew_ID']) - 10:info.find(json_data['hebrew_ID']) - 1]
-                elif " " in info[info.find(json_data['hebrew_ID']) - 12:info.find(json_data['hebrew_ID']) - 1]:
-                    id_value = info[info.find(json_data['hebrew_ID']) - 11:info.find(json_data['hebrew_ID']) - 1]
-                elif " " in info[info.find(json_data['hebrew_ID']) - 13:info.find(json_data['hebrew_ID']) - 1]:
-                    id_value = info[info.find(json_data['hebrew_ID']) - 12:info.find(json_data['hebrew_ID']) - 1]
-                else:
-                    id_value = info[info.find(json_data['hebrew_ID']) - 13:info.find(json_data['hebrew_ID']) - 1]
+                for i in range(9, 14):
+                    if " " in info[info.find(json_data['hebrew_ID']) - i:info.find(json_data['hebrew_ID']) - 1]:
+                        id_value = info[info.find(json_data['hebrew_ID']) - (i-1):info.find(json_data['hebrew_ID']) - 1]
+                        break
                 sheet.cell(row=people_row_count, column=1).value = id_value
                 sheet.cell(row=people_row_count, column=1).font = Font(size=11, bold=False)
 
@@ -118,7 +110,7 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
                 print(name_value)
 
             # Adding 1 to the index of where the program will write
-            return_string = 1
+            row_added = 1
         # Checking if there`s company and not mortgage in the line
         elif json_data['hebrew_Company'] in info and json_data['hebrew_Mortgage'] not in info:
             info += " "
@@ -161,7 +153,7 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
                 print(company_id_value)
 
             # Adding 1 to the index of where the program will write
-            return_string = 2
+            row_added = 2
         # Checking if there`s passport and not mortgage in the line
         elif json_data['hebrew_passport'] in info:
             info += " "
@@ -171,28 +163,13 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
 
             if type_of_file == 1:
                 # Find the passport and putting it in the excel (more complicated check, ID comes in multiple lengths)
-                if " " in info[info.find(json_data['hebrew_passport']) - 9:info.find(json_data['hebrew_passport']) - 1]:
-                    passport_value = info[info.find(json_data['hebrew_passport']) - 8:info.find(
-                        json_data['hebrew_passport']) - 1]
-                elif " " in info[
-                            info.find(json_data['hebrew_passport']) - 10:info.find(json_data['hebrew_passport']) - 1]:
-                    passport_value = info[info.find(json_data['hebrew_passport']) - 9:info.find(
-                        json_data['hebrew_passport']) - 1]
-                elif " " in info[
-                            info.find(json_data['hebrew_passport']) - 11:info.find(json_data['hebrew_passport']) - 1]:
-                    passport_value = info[info.find(json_data['hebrew_passport']) - 10:info.find(
-                        json_data['hebrew_passport']) - 1]
-                elif " " in info[
-                            info.find(json_data['hebrew_passport']) - 12:info.find(json_data['hebrew_passport']) - 1]:
-                    passport_value = info[info.find(json_data['hebrew_passport']) - 11:info.find(
-                        json_data['hebrew_passport']) - 1]
-                elif " " in info[
-                            info.find(json_data['hebrew_passport']) - 13:info.find(json_data['hebrew_passport']) - 1]:
-                    passport_value = info[info.find(json_data['hebrew_passport']) - 12:info.find(
-                        json_data['hebrew_passport']) - 1]
-                else:
-                    passport_value = info[info.find(json_data['hebrew_passport']) - 13:info.find(
-                        json_data['hebrew_passport']) - 1]
+                for i in range(9, 14):
+                    if " " in info[
+                              info.find(json_data['hebrew_passport']) - i:info.find(json_data['hebrew_passport']) - 1]:
+                        passport_value = info[info.find(json_data['hebrew_passport']) - (i-1):info.find(
+                            json_data['hebrew_passport']) - 1]
+                        break
+
                 sheet.cell(row=passport_row_count, column=7).value = passport_value
                 sheet.cell(row=passport_row_count, column=7).font = Font(size=11, bold=False)
 
@@ -206,9 +183,9 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
                 print(passport_value)
                 print(passport_name_value)
             # Adding 1 to the index of where the program will write
-            return_string = 3
+            row_added = 3
 
-    return return_string
+    return row_added
 
 
 def file_information_extractor(excel_file, file_name):
