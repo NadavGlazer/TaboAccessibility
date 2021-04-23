@@ -27,28 +27,35 @@ def pdf_to_txt(file):
 
     file_type = 0
     added_row = 0
+    lines = []
+    print(str(time.strftime("%H:%M:%S", time.localtime())))
     with pdfplumber.open(file) as pdf:
         for page in pdf.pages:
             text = page.extract_text()
             for line in text.split('\n'):
-                if not have_found_file_type:
-                    if find_file_type(line, sheet) == 1:
-                        have_found_file_type = True
-                        file_type = 1
-                    elif find_file_type(line, sheet) == 2:
-                        have_found_file_type = True
-                        file_type = 2
-                else:
-                    added_row = line_information_extractor(
-                        line, file_type, sheet, people_row_count, company_row_count, passport_row_count)
-                    if added_row == 1:
-                        people_row_count += 1
-                    elif added_row == 2:
-                        company_row_count += 1
-                    elif added_row == 3:
-                        passport_row_count += 1
+                lines.append(line)
+    print(str(time.strftime("%H:%M:%S", time.localtime())))
 
-        # Adding titles
+    for line in lines:
+        if not have_found_file_type:
+            if find_file_type(line, sheet) == 1:
+                have_found_file_type = True
+                file_type = 1
+            elif find_file_type(line, sheet) == 2:
+                have_found_file_type = True
+                file_type = 2
+        else:
+            added_row = line_information_extractor(
+                line, file_type, sheet, people_row_count, company_row_count, passport_row_count)
+            if added_row == 1:
+                people_row_count += 1
+            elif added_row == 2:
+                company_row_count += 1
+            elif added_row == 3:
+                passport_row_count += 1
+    print(str(time.strftime("%H:%M:%S", time.localtime())))
+
+    # Adding titles
     write_excel_titles(sheet)
 
     # Saving the excel
@@ -76,7 +83,7 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
 
             if type_of_file == 1:
                 # Find the ID and putting it in the excel (more complicated check, ID comes in multiple lengths)
-                for i in range(9, 14):
+                for i in range(6, 14):
                     if " " in info[info.find(json_data['hebrew_ID']) - i:info.find(json_data['hebrew_ID']) - 1]:
                         id_value = info[info.find(json_data['hebrew_ID']) - (i-1):info.find(json_data['hebrew_ID']) - 1]
                         break
@@ -566,7 +573,7 @@ def find_file_type(info, sheet):
         return 0
 
 
-pdf_to_txt('352.pdf')
+pdf_to_txt('143.pdf')
 #print(find_passport_name_shared_homes(info))
 #print(info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1])
 #print(info[info.find("ןוכרד") + 5:info.find("ןוכרד") + find_passport_name_shared_homes(info)][::-1])
