@@ -1,0 +1,27 @@
+<!doctype html>
+
+
+<head><title>Test</title>
+    <meta charset=utf-8> </head>
+    <!DOCTYPE html>
+<html>
+<head>
+<script>
+function myFunction() {
+  alert( document.getElementById("filename").value +".pdf is ready to download");
+  document.getElementById("form").submit();   
+  }
+</script>
+</head>
+
+<body onload="myFunction()" >
+<h1>Finished file</h1>
+<form action="{{ url_for('EndAndUploadFile')}}" id="form" method="POST">
+  <input type="text" id="filename" name="filename" value= {{ value1 }} readonly>
+  <button type="submit">submit</button>
+</form>
+<a href=".\">Home Page</a>
+
+</body>
+
+</html>

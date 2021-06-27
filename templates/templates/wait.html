@@ -1,0 +1,38 @@
+<!doctype html>
+
+
+<head><title>Test</title>
+    <meta charset=utf-8> </head>
+    <!DOCTYPE html>
+<html>
+<head>
+<script>
+function myFunction() {
+  //alert("Page is loaded");
+  setTimeout(() => {
+    document.getElementById("form").submit();
+    //n= "uploads3/" + document.getElementsByTagName("value1");
+  
+    //location.replace("End");
+  }, 5000);
+  //if(){
+    //location.replace("uploads4")
+  //}
+  
+
+}
+</script>
+</head>
+
+<body onload="myFunction()" >
+<h1>File name is: {{ value1 }}</h1>
+<h1>{{ value2 }}</h1>
+<form action="{{ url_for('LoopAndFileUploader')}}" id="form" method="POST">
+  <input type="text" id="filename" name="filename" value= {{ value1 }} readonly>
+  <button type="submit">submit</button>
+</form>
+<a href=".\">Home Page</a>
+
+</body>
+
+</html>
