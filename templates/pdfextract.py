@@ -118,7 +118,7 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
                 sheet.cell(row=people_row_count, column=1).font = Font(size=11, bold=False)
 
                 # Finding the name 
-                name_value = get_ID_name_from_sentence(info)                    
+                name_value = get_ID_name_from_sentence(info)[::-1]                    
                 name_value = name_value.replace("  ", " ")
                 
                 sheet.cell(row=people_row_count, column=2).value = name_value
@@ -159,7 +159,9 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
 
             if type_of_file == 2:
                 # Finding the company ID and putting it in the excel             
-                company_id_value= get_ID_from_sentence(info)               
+                company_id_value= get_ID_from_sentence(info) 
+                if(company_id_value== None):
+                    return 0
                 company_id_value = company_id_value.replace(" ", "")
                 
                 sheet.cell(row=company_row_count, column=5).value = company_id_value
@@ -190,25 +192,38 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
 
             if type_of_file == 1:
                 # Find the passport and putting it in the excel (more complicated check, ID comes in multiple lengths)
-                for i in range(9, 14):
-                    if " " in info[
-                              info.find(json_data['hebrew_passport']) - i:info.find(json_data['hebrew_passport']) - 1]:
-                        passport_value = info[info.find(json_data['hebrew_passport']) - (i-1):info.find(
-                            json_data['hebrew_passport']) - 1]
-                        break
+                passport_value= get_passport_from_sentence(info)
+                if(passport_value== None):
+                    return 0
+                passport_value = passport_value.replace(" ", "")
 
                 sheet.cell(row=passport_row_count, column=8).value = passport_value
                 sheet.cell(row=passport_row_count, column=8).font = Font(size=11, bold=False)
-
-                # Find the name and putting it in the excel by certain distance from the passport and the reason
-                passport_name_value = info[info.find(json_data['hebrew_passport']) + 5:info.find(
-                    json_data['hebrew_passport']) + find_passport_name_shared_homes(info)][::-1]
+                
+                passport_name_value= get_passport_name_from_sentence(info)[::-1] 
                 sheet.cell(row=passport_row_count, column=9).value = passport_name_value
                 sheet.cell(row=passport_row_count, column=9).font = Font(size=11, bold=False)
+
+                print(passport_value)
+                print(passport_name_value)
 
                 # Printing for debugging
                 print(passport_value)
                 print(passport_name_value)
+            if type_of_file == 2:
+                passport_value= get_passport_from_sentence(info)
+                if(passport_value== None):
+                    return 0
+                sheet.cell(row=passport_row_count, column=8).value = passport_value
+                sheet.cell(row=passport_row_count, column=8).font = Font(size=11, bold=False)
+                
+                passport_name_value= get_passport_name_from_sentence(info)
+                sheet.cell(row=passport_row_count, column=9).value = passport_name_value
+                sheet.cell(row=passport_row_count, column=9).font = Font(size=11, bold=False)
+
+                print(passport_value)
+                print(passport_name_value)
+
             # Adding 1 to the index of where the program will write
             sheet.cell(row=passport_row_count, column=10).value = page
             sheet.cell(row=passport_row_count, column=10).font = Font(size=11, bold=False)
@@ -267,48 +282,6 @@ def write_file_type_in_excel(file_type, sheet):
     sheet.cell(row=1, column=11).font = Font(size=11, bold=True)
     sheet.cell(row=2, column=11).value = file_type
     sheet.cell(row=2, column=11).font = Font(size=11, bold=False)
-
-
-def name_reason_filtering_shared_homes(info):
-    """Returning the string without the reason in order to find the name"""
-
-    json_file = open(json_file_name, encoding="utf8")
-    json_data = json.load(json_file)
-
-    for reason in json_data['possible_name_reasons']:
-        if reason in info:
-            info = info.replace(reason, "")
-            break
-    json_file.close()
-    return info
-
-
-
-def find_passport_name_shared_homes(info):
-    """Returning the distance of the name from the passport ID"""
-    json_file = open(json_file_name, encoding="utf8")
-    json_data = json.load(json_file)
-
-    length = 5
-    info = info[info.find(json_data['hebrew_passport']) + 5:]
-
-    info = " ".join(info.split())
-
-    length += info.find(" ") + 1
-    info = info[info.find(" ") + 1:]
-
-    info = " ".join(info.split())
-
-    info = info[::-1]
-    print(info)
-
-    info = name_reason_filtering_shared_homes(info)
-
-    info = " ".join(info.split())
-    print(info)
-    length += len(info)
-
-    return length
 
 
 def find_file_type(info, sheet):
@@ -400,6 +373,47 @@ def get_company_name_from_sentence(info):
        
 
     return info
+
+def get_passport_from_sentence(sentence):
+    words = sentence.split()
+    for word in words:
+        isGood=True
+        if(len(word)>5):
+            if(word.isdigit() or word.isupper()):  
+                return word
+            else:
+                for char in word:
+                    if(not char.isdigit() and not char.isupper() and not char.islower()):
+                        isGood=False
+                if(isGood):
+                    return word
+
+
+def get_passport_name_from_sentence(info):
+    """Returning the name"""
+    json_file = open(json_file_name, encoding="utf8")
+    json_data = json.load(json_file)
+
+    info = info.replace(json_data['hebrew_passport'],"")
+
+    info=info[::-1]
+
+    for reason in json_data['possible_name_reasons']:
+        if reason in info:
+            info=info.replace(reason,"")
+    
+    for word in info:
+        if(word.isdigit() or '/' in word or word.isupper() or word.islower()):
+            info= info.replace(word, "")
+
+    for count in range(0, len(info)):
+        if(info[count]==')'):
+            info = info[:count] + '(' + info[count+1:]
+        elif(info[count]=='('):
+            info = info[:count] + ')' + info[count+1:]
+    
+    return info
+
 
 #get_ID_name_from_sentence(" 17728/2013/1 1 / 2 300812641 ז.ת הנוי רואמ רכמ")
 #pdf_to_txt('352.pdf')
