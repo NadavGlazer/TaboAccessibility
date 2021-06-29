@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-from openpyxl.descriptors.base import Length
+from os import name
 import pdfplumber
 import pandas as pd
 import openpyxl
@@ -20,6 +20,7 @@ def pdf_to_txt(file):
     excel_file.to_excel(excel_file_name)
     book = openpyxl.load_workbook(json_data['path'] + excel_file_name)
     sheet = book.active
+
     sheet.sheet_view.rightToLeft = True    
 
     have_found_file_type = False
@@ -30,6 +31,7 @@ def pdf_to_txt(file):
 
     file_type = 0
     added_row = 0
+
 
     pdf_file_name= file[:-24] +".pdf"
     with pdfplumber.open(pdf_file_name) as pdf:
@@ -89,24 +91,20 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
             print(info)
 
             if type_of_file == 1:
-                # Find the ID and putting it in the excel (more complicated check, ID comes in multiple lengths)
-                # for i in range(9, 14):
-                #     if " " in info[info.find(json_data['hebrew_ID']) - i:info.find(json_data['hebrew_ID']) - 1]:
-                #         id_value = info[info.find(json_data['hebrew_ID']) - (i-1):info.find(json_data['hebrew_ID']) - 1]
-                #         break
-                id_value= ""
-                numbers = [int(word) for word in info.split() if word.isnumeric()]
-                for num in numbers:
-                    if(len(str(num))> 5):
-                        id_value=str(num)
+                id_value= get_ID_from_sentence(info)
+               
                 id_value = id_value.replace(" ", "")
 
                 sheet.cell(row=people_row_count, column=1).value = id_value
                 sheet.cell(row=people_row_count, column=1).font = Font(size=11, bold=False)
+    
+
 
                 # Find the name and putting it in the excel by certain distance from the ID and the reason
-                name_value = info[info.find(json_data['hebrew_ID']) + 3:info.find(
-                    json_data['hebrew_ID']) + find_name_shared_homes(info)][::-1]
+                # name_value = info[info.find(json_data['hebrew_ID']) + 3:info.find(
+                #     json_data['hebrew_ID']) + find_name_shared_homes(info)][::-1]
+                name_value = get_ID_name_from_sentence(info)[::-1]                   
+                
                 sheet.cell(row=people_row_count, column=2).value = name_value
                 sheet.cell(row=people_row_count, column=2).font = Font(size=11, bold=False)
 
@@ -117,20 +115,19 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
             if type_of_file == 2:
                 # Find the ID and putting it in the excel (ID is always in the start of the file, very simple check)
                 #id_value = info[:info.find(json_data['hebrew_ID'])]     
-                id_value= ""
-
-                numbers = [int(word) for word in info.split() if word.isnumeric()]
-                for num in numbers:
-                    if(len(str(num))> 5):
-                        id_value=str(num)           
+                id_value= id_value= get_ID_from_sentence(info)
+                        
                 id_value = id_value.replace(" ", "")
                 
-                sheet.cell(row=people_row_count, column=1).value = id_value
+                sheet.cell(row=people_row_count, column=1,).value = id_value
                 sheet.cell(row=people_row_count, column=1).font = Font(size=11, bold=False)
 
                 # Find the name and putting it in the excel by certain distance from the ID and the reason
-                name_value = info[info.find(json_data['hebrew_ID']) + 3:info.find(
-                    json_data['hebrew_ID']) + find_name_shared_rights(info)][::-1]
+                # name_value = info[info.find(json_data['hebrew_ID']) + 3:info.find(
+                #     json_data['hebrew_ID']) + find_name_shared_rights(info)][::-1]   
+                #       
+                name_value = get_ID_name_from_sentence(info)                    
+
                 sheet.cell(row=people_row_count, column=2).value = name_value
                 sheet.cell(row=people_row_count, column=2).font = Font(size=11, bold=False)
 
@@ -150,9 +147,10 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
             print(info)
 
             if type_of_file == 1:
-                # Find the company ID and putting it in the excel
-                company_id_value = info[info.find(json_data['hebrew_Company']) - 10:info.find(
-                    json_data['hebrew_Company']) - 1]
+                # Find the company ID and putting it in the excel               
+                company_id_value= get_ID_from_sentence(info)               
+                company_id_value = company_id_value.replace(" ", "")
+
                 sheet.cell(row=company_row_count, column=5).value = company_id_value
                 sheet.cell(row=company_row_count, column=5).font = Font(size=11, bold=False)
 
@@ -167,9 +165,10 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
                 print(company_id_value)
 
             if type_of_file == 2:
-                # Find the company ID and putting it in the excel
-                company_id_value = info[info.find(json_data['hebrew_Company']) - 10:info.find(
-                    json_data['hebrew_Company']) - 1]
+                # Find the company ID and putting it in the excel             
+                company_id_value= get_ID_from_sentence(info)               
+                company_id_value = company_id_value.replace(" ", "")
+                
                 sheet.cell(row=company_row_count, column=5).value = company_id_value
                 sheet.cell(row=company_row_count, column=5).font = Font(size=11, bold=False)
 
@@ -445,13 +444,50 @@ def find_file_type(info, sheet):
         return 0
 
 
-def find_if_ID_valid(sentence):
+def get_ID_from_sentence(sentence):
     words = sentence.split()
     for word in words:
         if(len(word)>5):
             if(word.isnumeric() or ("/" not in word and "-" in word)):
                 return word
 
+
+def get_ID_name_from_sentence(info):
+    """Returning the distance of the name from the ID"""
+    json_file = open(json_file_name, encoding="utf8")
+    json_data = json.load(json_file)
+
+    info = info.replace(json_data['hebrew_ID'],"")
+
+    info=info[::-1]
+
+    for reason in json_data['possible_name_reasons']:
+        if reason in info:
+            info=info.replace(reason,"")
+    
+    for word in info:
+        if(word.isdigit() or '/' in word):
+            info= info.replace(word, "")
+
+    for count in range(0, len(info)):
+        if(info[count]==')'):
+            info = info[:count] + '(' + info[count+1:]
+        elif(info[count]=='('):
+            info = info[:count] + ')' + info[count+1:]
+
+   
+    info = info.replace("  ", "")
+    for a in range(0,2):
+        if(info[len(info)-1] ==' ' or info[len(info)-1] =='-'):
+            info = info[:-1]            
+        elif(info[0] == ' ' or info[0] == '-'):
+            info = info[1:]          
+       
+    info=info[::-1]
+
+    return info
+   
+#get_ID_name_from_sentence(" 17728/2013/1 1 / 2 300812641 ז.ת הנוי רואמ רכמ")
 #pdf_to_txt('352.pdf')
 #print(find_passport_name_shared_homes(info))
 #print(info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1])
