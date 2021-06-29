@@ -8,7 +8,7 @@ import time
 from datetime import date
 import json
 
-json_file_name ='config.json'
+json_file_name ='templates/config.json'
 def pdf_to_txt(file):
     """ Converting every line in the pdf into a line into an excel it created with the name of the pdf + "result" """
     
@@ -19,6 +19,7 @@ def pdf_to_txt(file):
     excel_file.to_excel(excel_file_name)
     book = openpyxl.load_workbook(json_data['path'] + excel_file_name)
     sheet = book.active
+    sheet.sheet_view.rightToLeft = True    
 
     have_found_file_type = False
 
@@ -34,13 +35,14 @@ def pdf_to_txt(file):
         for page in pdf.pages:
             val= str(page)[1:]
             val=val[:-1]
+            page_num= val[5:]
             page_amount= " out of  "+(str(pdf.pages)[len(str(pdf.pages))-6:])[:-2][-2:]
             val = val+ page_amount
             write_data_in_information_file(val,file[:-4]+".txt")
             for line in page.extract_text().split('\n'):
                 if have_found_file_type:                   
                     added_row = line_information_extractor(
-                        line, file_type, sheet, people_row_count, company_row_count, passport_row_count)
+                        line, file_type, sheet, people_row_count, company_row_count, passport_row_count,page_num)
                     if added_row == 1:
                         people_row_count += 1
                     elif added_row == 2:
@@ -70,7 +72,7 @@ def pdf_to_txt(file):
     
 
 
-def line_information_extractor(info, type_of_file, sheet, people_row_count, company_row_count, passport_row_count):
+def line_information_extractor(info, type_of_file, sheet, people_row_count, company_row_count, passport_row_count,page):
     """getting a line and checking if a certain information is in it then writing it in the excel"""
     json_file = open(json_file_name, encoding="utf8")
     json_data = json.load(json_file)
@@ -78,7 +80,6 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
     row_added = 0
 
     if isinstance(info, str):
-
         # Checking if there`s ID in the line
         if json_data['hebrew_ID'] in info:
             info = info + " "
@@ -92,6 +93,8 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
                     if " " in info[info.find(json_data['hebrew_ID']) - i:info.find(json_data['hebrew_ID']) - 1]:
                         id_value = info[info.find(json_data['hebrew_ID']) - (i-1):info.find(json_data['hebrew_ID']) - 1]
                         break
+                id_value = id_value.replace(" ", "")
+
                 sheet.cell(row=people_row_count, column=1).value = id_value
                 sheet.cell(row=people_row_count, column=1).font = Font(size=11, bold=False)
 
@@ -107,7 +110,9 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
 
             if type_of_file == 2:
                 # Find the ID and putting it in the excel (ID is always in the start of the file, very simple check)
-                id_value = info[:info.find(json_data['hebrew_ID'])]
+                id_value = info[:info.find(json_data['hebrew_ID'])]                
+                id_value = id_value.replace(" ", "")
+                
                 sheet.cell(row=people_row_count, column=1).value = id_value
                 sheet.cell(row=people_row_count, column=1).font = Font(size=11, bold=False)
 
@@ -122,6 +127,8 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
                 print(name_value)
 
             # Adding 1 to the index of where the program will write
+            sheet.cell(row=people_row_count, column=3).value = page
+            sheet.cell(row=people_row_count, column=3).font = Font(size=11, bold=False)
             row_added = 1
         # Checking if there`s company and not mortgage in the line
         elif json_data['hebrew_Company'] in info and json_data['hebrew_Mortgage'] not in info:
@@ -134,14 +141,14 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
                 # Find the company ID and putting it in the excel
                 company_id_value = info[info.find(json_data['hebrew_Company']) - 10:info.find(
                     json_data['hebrew_Company']) - 1]
-                sheet.cell(row=company_row_count, column=4).value = company_id_value
-                sheet.cell(row=company_row_count, column=4).font = Font(size=11, bold=False)
+                sheet.cell(row=company_row_count, column=5).value = company_id_value
+                sheet.cell(row=company_row_count, column=5).font = Font(size=11, bold=False)
 
                 # Find the name and putting it in the excel by certain distance from the ID and the reason
                 company_name_value = info[info.find(json_data['hebrew_Company']) + 4:info.find(
                     json_data['hebrew_Company']) + find_company_name_shared_homes(info)][::-1]
-                sheet.cell(row=company_row_count, column=5).value = company_name_value
-                sheet.cell(row=company_row_count, column=5).font = Font(size=11, bold=False)
+                sheet.cell(row=company_row_count, column=6).value = company_name_value
+                sheet.cell(row=company_row_count, column=6).font = Font(size=11, bold=False)
 
                 # Printing for debugging
                 print(company_name_value)
@@ -151,18 +158,21 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
                 # Find the company ID and putting it in the excel
                 company_id_value = info[info.find(json_data['hebrew_Company']) - 10:info.find(
                     json_data['hebrew_Company']) - 1]
-                sheet.cell(row=company_row_count, column=4).value = company_id_value
-                sheet.cell(row=company_row_count, column=4).font = Font(size=11, bold=False)
+                sheet.cell(row=company_row_count, column=5).value = company_id_value
+                sheet.cell(row=company_row_count, column=5).font = Font(size=11, bold=False)
 
                 # Find the name and putting it in the excel by certain distance from the ID and the reason
                 company_name_value = info[info.find(json_data['hebrew_Company']) + 4:info.find(
                     json_data['hebrew_Company']) + find_company_name_shared_rights(info)][::-1]
-                sheet.cell(row=company_row_count, column=5).value = company_name_value
-                sheet.cell(row=company_row_count, column=5).font = Font(size=11, bold=False)
+                sheet.cell(row=company_row_count, column=6).value = company_name_value
+                sheet.cell(row=company_row_count, column=6).font = Font(size=11, bold=False)
 
                 # Printing for debugging
                 print(company_name_value)
                 print(company_id_value)
+
+            sheet.cell(row=company_row_count, column=7).value = page
+            sheet.cell(row=company_row_count, column=7).font = Font(size=11, bold=False)
 
             # Adding 1 to the index of where the program will write
             row_added = 2
@@ -182,19 +192,21 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
                             json_data['hebrew_passport']) - 1]
                         break
 
-                sheet.cell(row=passport_row_count, column=7).value = passport_value
-                sheet.cell(row=passport_row_count, column=7).font = Font(size=11, bold=False)
+                sheet.cell(row=passport_row_count, column=8).value = passport_value
+                sheet.cell(row=passport_row_count, column=8).font = Font(size=11, bold=False)
 
                 # Find the name and putting it in the excel by certain distance from the passport and the reason
                 passport_name_value = info[info.find(json_data['hebrew_passport']) + 5:info.find(
                     json_data['hebrew_passport']) + find_passport_name_shared_homes(info)][::-1]
-                sheet.cell(row=passport_row_count, column=8).value = passport_name_value
-                sheet.cell(row=passport_row_count, column=8).font = Font(size=11, bold=False)
+                sheet.cell(row=passport_row_count, column=9).value = passport_name_value
+                sheet.cell(row=passport_row_count, column=9).font = Font(size=11, bold=False)
 
                 # Printing for debugging
                 print(passport_value)
                 print(passport_name_value)
             # Adding 1 to the index of where the program will write
+            sheet.cell(row=passport_row_count, column=10).value = page
+            sheet.cell(row=passport_row_count, column=10).font = Font(size=11, bold=False)
             row_added = 3
 
     return row_added
@@ -221,14 +233,20 @@ def write_excel_titles(sheet):
     sheet.cell(row=1, column=1).font = Font(size=11, bold=True)
     sheet.cell(row=1, column=2).value = "שם"
     sheet.cell(row=1, column=2).font = Font(size=11, bold=True)
-    sheet.cell(row=1, column=4).value = "מספר"
-    sheet.cell(row=1, column=4).font = Font(size=11, bold=True)
-    sheet.cell(row=1, column=5).value = "שם חברה"
+    sheet.cell(row=1, column=3).value = "מספר עמוד"
+    sheet.cell(row=1, column=3).font = Font(size=11, bold=True)
+    sheet.cell(row=1, column=5).value = "מספר"
     sheet.cell(row=1, column=5).font = Font(size=11, bold=True)
-    sheet.cell(row=1, column=7).value = "מספר דרכון"
+    sheet.cell(row=1, column=6).value = "שם חברה"
+    sheet.cell(row=1, column=6).font = Font(size=11, bold=True)
+    sheet.cell(row=1, column=7).value = "מספר עמוד"
     sheet.cell(row=1, column=7).font = Font(size=11, bold=True)
-    sheet.cell(row=1, column=8).value = "שם"
+    sheet.cell(row=1, column=8).value = "מספר דרכון"
     sheet.cell(row=1, column=8).font = Font(size=11, bold=True)
+    sheet.cell(row=1, column=9).value = "שם"
+    sheet.cell(row=1, column=9).font = Font(size=11, bold=True)
+    sheet.cell(row=1, column=10).value = "מספר עמוד"
+    sheet.cell(row=1, column=10).font = Font(size=11, bold=True)
 
 
 def clear_excel_cell(cell):
@@ -240,10 +258,10 @@ def clear_excel_cell(cell):
 
 def write_file_type_in_excel(file_type, sheet):
     """gets sheet and file-type and writes it in the sheet"""
-    sheet.cell(row=1, column=10).value = "סוג קובץ:"
-    sheet.cell(row=1, column=10).font = Font(size=11, bold=True)
-    sheet.cell(row=2, column=10).value = file_type
-    sheet.cell(row=2, column=10).font = Font(size=11, bold=False)
+    sheet.cell(row=1, column=11).value = "סוג קובץ:"
+    sheet.cell(row=1, column=11).font = Font(size=11, bold=True)
+    sheet.cell(row=2, column=11).value = file_type
+    sheet.cell(row=2, column=11).font = Font(size=11, bold=False)
 
 
 def find_name_shared_rights(info):

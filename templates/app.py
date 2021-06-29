@@ -70,7 +70,7 @@ def LoopAndFileUploader():
 def EndAndUploadFile():
   if request.method == "POST":
     f = request.form.get("filename")
-    return send_file(str(f) +" result.xlsx", as_attachment=True)
+    return send_file("../"+str(f) +" result.xlsx", as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=False)

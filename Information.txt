@@ -1,0 +1,247 @@
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:06:13
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:09:37
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:10:13
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:11:52
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:13:07
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:21:30
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:23:58
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:25:21
+Page:1 out of  17 29/06/2021 14:25:29
+Page:2 out of  17 29/06/2021 14:25:29
+Page:3 out of  17 29/06/2021 14:25:29
+Page:4 out of  17 29/06/2021 14:25:29
+Page:5 out of  17 29/06/2021 14:25:29
+Page:6 out of  17 29/06/2021 14:25:30
+Page:7 out of  17 29/06/2021 14:25:30
+Page:8 out of  17 29/06/2021 14:25:30
+Page:9 out of  17 29/06/2021 14:25:30
+Page:10 out of  17 29/06/2021 14:25:30
+Page:11 out of  17 29/06/2021 14:25:30
+Page:12 out of  17 29/06/2021 14:25:30
+Page:13 out of  17 29/06/2021 14:25:31
+Page:14 out of  17 29/06/2021 14:25:31
+Page:15 out of  17 29/06/2021 14:25:31
+Page:16 out of  17 29/06/2021 14:25:31
+Page:17 out of  17 29/06/2021 14:25:31
+Finished extracting 191_29_06_2021_14_25_29 29/06/2021 14:25:31
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:26:42
+Page:1 out of  17 29/06/2021 14:26:48
+Page:2 out of  17 29/06/2021 14:26:49
+Page:3 out of  17 29/06/2021 14:26:49
+Page:4 out of  17 29/06/2021 14:26:49
+Page:5 out of  17 29/06/2021 14:26:49
+Page:6 out of  17 29/06/2021 14:26:49
+Page:7 out of  17 29/06/2021 14:26:49
+Page:8 out of  17 29/06/2021 14:26:49
+Page:9 out of  17 29/06/2021 14:26:50
+Page:10 out of  17 29/06/2021 14:26:50
+Page:11 out of  17 29/06/2021 14:26:50
+Page:12 out of  17 29/06/2021 14:26:50
+Page:13 out of  17 29/06/2021 14:26:50
+Page:14 out of  17 29/06/2021 14:26:50
+Page:15 out of  17 29/06/2021 14:26:50
+Page:16 out of  17 29/06/2021 14:26:50
+Page:17 out of  17 29/06/2021 14:26:51
+Finished extracting 191_29_06_2021_14_26_48 29/06/2021 14:26:51
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:28:51
+Page:1 out of  17 29/06/2021 14:28:59
+Page:2 out of  17 29/06/2021 14:28:59
+Page:3 out of  17 29/06/2021 14:28:59
+Page:4 out of  17 29/06/2021 14:28:59
+Page:5 out of  17 29/06/2021 14:28:59
+Page:6 out of  17 29/06/2021 14:28:59
+Page:7 out of  17 29/06/2021 14:28:59
+Page:8 out of  17 29/06/2021 14:28:59
+Page:9 out of  17 29/06/2021 14:29:00
+Page:10 out of  17 29/06/2021 14:29:00
+Page:11 out of  17 29/06/2021 14:29:00
+Page:12 out of  17 29/06/2021 14:29:00
+Page:13 out of  17 29/06/2021 14:29:00
+Page:14 out of  17 29/06/2021 14:29:00
+Page:15 out of  17 29/06/2021 14:29:00
+Page:16 out of  17 29/06/2021 14:29:01
+Page:17 out of  17 29/06/2021 14:29:01
+Finished extracting 191_29_06_2021_14_28_58 29/06/2021 14:29:01
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:31:30
+Page:1 out of  17 29/06/2021 14:31:35
+Page:2 out of  17 29/06/2021 14:31:35
+Page:3 out of  17 29/06/2021 14:31:35
+Page:4 out of  17 29/06/2021 14:31:36
+Page:5 out of  17 29/06/2021 14:31:36
+Page:6 out of  17 29/06/2021 14:31:36
+Page:7 out of  17 29/06/2021 14:31:36
+Page:8 out of  17 29/06/2021 14:31:36
+Page:9 out of  17 29/06/2021 14:31:36
+Page:10 out of  17 29/06/2021 14:31:36
+Page:11 out of  17 29/06/2021 14:31:37
+Page:12 out of  17 29/06/2021 14:31:37
+Page:13 out of  17 29/06/2021 14:31:37
+Page:14 out of  17 29/06/2021 14:31:37
+Page:15 out of  17 29/06/2021 14:31:37
+Page:16 out of  17 29/06/2021 14:31:37
+Page:17 out of  17 29/06/2021 14:31:37
+Finished extracting 191_29_06_2021_14_31_35 29/06/2021 14:31:37
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:32:21
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:34:02
+Page:1 out of  17 29/06/2021 14:34:08
+Page:2 out of  17 29/06/2021 14:34:08
+Page:3 out of  17 29/06/2021 14:34:08
+Page:4 out of  17 29/06/2021 14:34:08
+Page:5 out of  17 29/06/2021 14:34:08
+Page:6 out of  17 29/06/2021 14:34:08
+Page:7 out of  17 29/06/2021 14:34:09
+Page:8 out of  17 29/06/2021 14:34:09
+Page:9 out of  17 29/06/2021 14:34:09
+Page:10 out of  17 29/06/2021 14:34:09
+Page:11 out of  17 29/06/2021 14:34:09
+Page:12 out of  17 29/06/2021 14:34:09
+Page:13 out of  17 29/06/2021 14:34:09
+Page:14 out of  17 29/06/2021 14:34:10
+Page:15 out of  17 29/06/2021 14:34:10
+Page:16 out of  17 29/06/2021 14:34:10
+Page:17 out of  17 29/06/2021 14:34:10
+Finished extracting 191_29_06_2021_14_34_08 29/06/2021 14:34:10
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:36:25
+Page:1 out of  20 29/06/2021 14:36:30
+Page:2 out of  20 29/06/2021 14:36:30
+Page:3 out of  20 29/06/2021 14:36:30
+Page:4 out of  20 29/06/2021 14:36:31
+Page:5 out of  20 29/06/2021 14:36:31
+Page:6 out of  20 29/06/2021 14:36:31
+Page:7 out of  20 29/06/2021 14:36:31
+Page:8 out of  20 29/06/2021 14:36:31
+Page:9 out of  20 29/06/2021 14:36:31
+Page:10 out of  20 29/06/2021 14:36:31
+Page:11 out of  20 29/06/2021 14:36:31
+Page:12 out of  20 29/06/2021 14:36:32
+Page:13 out of  20 29/06/2021 14:36:32
+Page:14 out of  20 29/06/2021 14:36:32
+Page:15 out of  20 29/06/2021 14:36:32
+Page:16 out of  20 29/06/2021 14:36:32
+Page:17 out of  20 29/06/2021 14:36:32
+Page:18 out of  20 29/06/2021 14:36:32
+Page:19 out of  20 29/06/2021 14:36:33
+Page:20 out of  20 29/06/2021 14:36:33
+Finished extracting 268_29_06_2021_14_36_30 29/06/2021 14:36:33
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:37:40
+Page:1 out of  17 29/06/2021 14:37:44
+Page:2 out of  17 29/06/2021 14:37:44
+Page:3 out of  17 29/06/2021 14:37:45
+Page:4 out of  17 29/06/2021 14:37:45
+Page:5 out of  17 29/06/2021 14:37:45
+Page:6 out of  17 29/06/2021 14:37:45
+Page:7 out of  17 29/06/2021 14:37:45
+Page:8 out of  17 29/06/2021 14:37:45
+Page:9 out of  17 29/06/2021 14:37:45
+Page:10 out of  17 29/06/2021 14:37:46
+Page:11 out of  17 29/06/2021 14:37:46
+Page:12 out of  17 29/06/2021 14:37:46
+Page:13 out of  17 29/06/2021 14:37:46
+Page:14 out of  17 29/06/2021 14:37:46
+Page:15 out of  17 29/06/2021 14:37:46
+Page:16 out of  17 29/06/2021 14:37:46
+Page:17 out of  17 29/06/2021 14:37:46
+Finished extracting 191_29_06_2021_14_37_44 29/06/2021 14:37:47
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:38:36
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:38:38
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:38:42
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:38:43
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:38:46
+Page:1 out of  17 29/06/2021 14:38:51
+Page:2 out of  17 29/06/2021 14:38:51
+Page:3 out of  17 29/06/2021 14:38:51
+Page:4 out of  17 29/06/2021 14:38:52
+Page:5 out of  17 29/06/2021 14:38:52
+Page:6 out of  17 29/06/2021 14:38:52
+Page:7 out of  17 29/06/2021 14:38:52
+Page:8 out of  17 29/06/2021 14:38:52
+Page:9 out of  17 29/06/2021 14:38:52
+Page:10 out of  17 29/06/2021 14:38:52
+Page:11 out of  17 29/06/2021 14:38:53
+Page:12 out of  17 29/06/2021 14:38:53
+Page:13 out of  17 29/06/2021 14:38:53
+Page:14 out of  17 29/06/2021 14:38:53
+Page:15 out of  17 29/06/2021 14:38:53
+Page:16 out of  17 29/06/2021 14:38:53
+Page:17 out of  17 29/06/2021 14:38:53
+Finished extracting 191_29_06_2021_14_38_51 29/06/2021 14:38:53
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:39:19
+Page:1 out of  17 29/06/2021 14:39:23
+Page:2 out of  17 29/06/2021 14:39:24
+Page:3 out of  17 29/06/2021 14:39:24
+Page:4 out of  17 29/06/2021 14:39:24
+Page:5 out of  17 29/06/2021 14:39:24
+Page:6 out of  17 29/06/2021 14:39:24
+Page:7 out of  17 29/06/2021 14:39:24
+Page:8 out of  17 29/06/2021 14:39:24
+Page:9 out of  17 29/06/2021 14:39:24
+Page:10 out of  17 29/06/2021 14:39:25
+Page:11 out of  17 29/06/2021 14:39:25
+Page:12 out of  17 29/06/2021 14:39:25
+Page:13 out of  17 29/06/2021 14:39:25
+Page:14 out of  17 29/06/2021 14:39:25
+Page:15 out of  17 29/06/2021 14:39:25
+Page:16 out of  17 29/06/2021 14:39:25
+Page:17 out of  17 29/06/2021 14:39:26
+Finished extracting 191_29_06_2021_14_39_23 29/06/2021 14:39:26
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:44:45
+Page:1 out of  17 29/06/2021 14:44:50
+Page:2 out of  17 29/06/2021 14:44:50
+Page:3 out of  17 29/06/2021 14:44:50
+Page:4 out of  17 29/06/2021 14:44:51
+Page:5 out of  17 29/06/2021 14:44:51
+Page:6 out of  17 29/06/2021 14:44:51
+Page:7 out of  17 29/06/2021 14:44:51
+Page:8 out of  17 29/06/2021 14:44:51
+Page:9 out of  17 29/06/2021 14:44:51
+Page:10 out of  17 29/06/2021 14:44:51
+Page:11 out of  17 29/06/2021 14:44:51
+Page:12 out of  17 29/06/2021 14:44:52
+Page:13 out of  17 29/06/2021 14:44:52
+Page:14 out of  17 29/06/2021 14:44:52
+Page:15 out of  17 29/06/2021 14:44:52
+Page:16 out of  17 29/06/2021 14:44:52
+Page:17 out of  17 29/06/2021 14:44:52
+Finished extracting 191_29_06_2021_14_44_50 29/06/2021 14:44:52
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:47:01
+Page:1 out of  17 29/06/2021 14:47:06
+Page:2 out of  17 29/06/2021 14:47:06
+Page:3 out of  17 29/06/2021 14:47:06
+Page:4 out of  17 29/06/2021 14:47:06
+Page:5 out of  17 29/06/2021 14:47:06
+Page:6 out of  17 29/06/2021 14:47:06
+Page:7 out of  17 29/06/2021 14:47:06
+Page:8 out of  17 29/06/2021 14:47:06
+Page:9 out of  17 29/06/2021 14:47:07
+Page:10 out of  17 29/06/2021 14:47:07
+Page:11 out of  17 29/06/2021 14:47:07
+Page:12 out of  17 29/06/2021 14:47:07
+Page:13 out of  17 29/06/2021 14:47:07
+Page:14 out of  17 29/06/2021 14:47:07
+Page:15 out of  17 29/06/2021 14:47:07
+Page:16 out of  17 29/06/2021 14:47:08
+Page:17 out of  17 29/06/2021 14:47:08
+Finished extracting 191_29_06_2021_14_47_05 29/06/2021 14:47:08
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:50:28
+Page:1 out of  20 29/06/2021 14:50:33
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:51:46
+Page:1 out of  17 29/06/2021 14:51:51
+Browser IP: 127.0.0.1 User: None Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Cookies: ImmutableMultiDict([]) 29/06/2021 14:53:17
+Page:1 out of  17 29/06/2021 14:53:20
+Page:2 out of  17 29/06/2021 14:53:20
+Page:3 out of  17 29/06/2021 14:53:20
+Page:4 out of  17 29/06/2021 14:53:20
+Page:5 out of  17 29/06/2021 14:53:21
+Page:6 out of  17 29/06/2021 14:53:21
+Page:7 out of  17 29/06/2021 14:53:21
+Page:8 out of  17 29/06/2021 14:53:21
+Page:9 out of  17 29/06/2021 14:53:21
+Page:10 out of  17 29/06/2021 14:53:21
+Page:11 out of  17 29/06/2021 14:53:21
+Page:12 out of  17 29/06/2021 14:53:22
+Page:13 out of  17 29/06/2021 14:53:22
+Page:14 out of  17 29/06/2021 14:53:22
+Page:15 out of  17 29/06/2021 14:53:22
+Page:16 out of  17 29/06/2021 14:53:22
+Page:17 out of  17 29/06/2021 14:53:22
+Finished extracting 191_29_06_2021_14_53_20 29/06/2021 14:53:22
