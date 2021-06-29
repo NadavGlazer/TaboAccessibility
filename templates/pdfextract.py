@@ -1,4 +1,5 @@
 # This Python file uses the following encoding: utf-8
+from openpyxl.descriptors.base import Length
 import pdfplumber
 import pandas as pd
 import openpyxl
@@ -89,10 +90,15 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
 
             if type_of_file == 1:
                 # Find the ID and putting it in the excel (more complicated check, ID comes in multiple lengths)
-                for i in range(9, 14):
-                    if " " in info[info.find(json_data['hebrew_ID']) - i:info.find(json_data['hebrew_ID']) - 1]:
-                        id_value = info[info.find(json_data['hebrew_ID']) - (i-1):info.find(json_data['hebrew_ID']) - 1]
-                        break
+                # for i in range(9, 14):
+                #     if " " in info[info.find(json_data['hebrew_ID']) - i:info.find(json_data['hebrew_ID']) - 1]:
+                #         id_value = info[info.find(json_data['hebrew_ID']) - (i-1):info.find(json_data['hebrew_ID']) - 1]
+                #         break
+                id_value= ""
+                numbers = [int(word) for word in info.split() if word.isnumeric()]
+                for num in numbers:
+                    if(len(str(num))> 5):
+                        id_value=str(num)
                 id_value = id_value.replace(" ", "")
 
                 sheet.cell(row=people_row_count, column=1).value = id_value
@@ -110,7 +116,13 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
 
             if type_of_file == 2:
                 # Find the ID and putting it in the excel (ID is always in the start of the file, very simple check)
-                id_value = info[:info.find(json_data['hebrew_ID'])]                
+                #id_value = info[:info.find(json_data['hebrew_ID'])]     
+                id_value= ""
+
+                numbers = [int(word) for word in info.split() if word.isnumeric()]
+                for num in numbers:
+                    if(len(str(num))> 5):
+                        id_value=str(num)           
                 id_value = id_value.replace(" ", "")
                 
                 sheet.cell(row=people_row_count, column=1).value = id_value
@@ -432,7 +444,14 @@ def find_file_type(info, sheet):
     else:
         return 0
 
-#pdf_to_txt('73.pdf')
+
+def find_if_ID_valid(sentence):
+    words = sentence.split()
+    for word in words:
+        if(len(word)>5):
+            if(word.isnumeric() or ("/" not in word and "-" in word)):
+                return word
+
 #pdf_to_txt('352.pdf')
 #print(find_passport_name_shared_homes(info))
 #print(info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1])
