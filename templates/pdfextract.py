@@ -9,7 +9,8 @@ import time
 from datetime import date
 import json
 
-json_file_name ='templates/config.json'
+# json_file_name ='templates/config.json'
+json_file_name= 'config.json'
 def pdf_to_txt(file):
     """ Converting every line in the pdf into a line into an excel it created with the name of the pdf + "result" """
     
