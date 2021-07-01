@@ -3,7 +3,7 @@ import pdfplumber
 import pandas as pd
 import openpyxl
 import openpyxl.styles
-from openpyxl.styles import Font, Border
+from openpyxl.styles import Font, Border, Alignment 
 import time
 from datetime import date
 import json
@@ -39,7 +39,12 @@ def pdf_to_txt(file):
             val= str(page)[1:]
             val=val[:-1]
             page_num= val[5:]
-            page_amount= " out of  "+(str(pdf.pages)[len(str(pdf.pages))-6:])[:-2][-2:]
+            temp_page_amount= str(pdf.pages)[-11:]
+            page_amount=""
+            for char in temp_page_amount:
+                if(char.isnumeric()):
+                    page_amount+=char
+            page_amount= " out of  "+page_amount
             val = val+ page_amount
             write_data_in_information_file(val,file[:-4]+".txt")
             for line in page.extract_text().split('\n'):
@@ -65,6 +70,8 @@ def pdf_to_txt(file):
     write_excel_titles(sheet)
     
     # Saving the excel
+   
+
     new_excel_file_name=excel_file_name[:-5] + " result.xlsx"
     book.title=new_excel_file_name
     book.save(new_excel_file_name)   
@@ -415,7 +422,6 @@ def get_passport_name_from_sentence(info):
             info = info[:count] + ')' + info[count+1:]
     
     return info
-
 
 #pdf_to_txt('352.pdf')
 
