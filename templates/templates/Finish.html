@@ -56,6 +56,9 @@
   <div>
     <h1 class="MainTitle">XLSX file is ready!</h1>
     <div class="divs">
+      <h4 style="margin-bottom:-8%; margin-top:15%; font-family: 'Roboto', sans-serif;">Click here if the file didn`t download</h4>
+    </div>
+    <div class="divs">
       <form action="{{ url_for('EndAndUploadFile')}}" id="form" method="POST">
         <input type="hidden" id="filename" name="filename" value={{ value1 }} readonly>
         <button class="HomePageB" type="submit">Download</button>

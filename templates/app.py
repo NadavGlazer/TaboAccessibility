@@ -2,11 +2,12 @@ from flask.helpers import send_from_directory
 import pdfextract
 from flask import Flask, render_template, request, send_file
 from werkzeug.utils  import secure_filename
-from pdfextract import pdf_to_txt, write_data_in_information_file1
+from pdfextract import pdf_to_txt, write_data_in_information_file
 import time
 from datetime import date
 import _thread
 from multiprocessing import Process
+import platform
 
 app = Flask(__name__)
 
@@ -20,7 +21,7 @@ app.config['TIME_OUT'] = 0
 def index():
   print(request.cookies)
   print(request.remote_addr)
-  write_data_in_information_file1("Browser IP: "+ request.remote_addr + " User: "+str(request.remote_user)+" Agent: "+ str(request.user_agent) + " Cookies: "+str(request.cookies))
+  write_data_in_information_file("Browser IP: "+ request.remote_addr + " User: "+str(request.remote_user)+" Agent: "+ str(request.user_agent) + " Cookies: "+str(request.cookies))
   return render_template('index.html')
 
 @app.route('/Start', methods = ['GET', 'POST'])
@@ -67,7 +68,10 @@ def LoopAndFileUploader():
 def EndAndUploadFile():
   if request.method == "POST":
     file_name = request.form.get("filename")
-    return send_file("../"+str(file_name) +" result.xlsx", as_attachment=True)
+    if(platform=="linux"):
+      return send_file(str(file_name) +" result.xlsx", as_attachment=True)
+    else:
+       return send_file("../"+str(file_name) +" result.xlsx", as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=False)

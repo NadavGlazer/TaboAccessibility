@@ -6,3 +6,4 @@ werkzeug
 datetime
 multiprocess
 pandas
+platform

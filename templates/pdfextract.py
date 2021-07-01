@@ -1,4 +1,5 @@
 # This Python file uses the following encoding: utf-8
+import platform
 import pdfplumber
 import pandas as pd
 import openpyxl
@@ -7,9 +8,14 @@ from openpyxl.styles import Font, Border, Alignment
 import time
 from datetime import date
 import json
+import platform
 
-json_file_name ='templates/config.json'
-# json_file_name= 'config.json'
+
+if(platform=="linux"):
+    json_file_name= 'config.json'
+else:
+    json_file_name ='templates/config.json'
+
 def pdf_to_txt(file):
     """ Converting every line in the pdf into a line into an excel it created with the name of the pdf + "result" """
     
@@ -18,7 +24,11 @@ def pdf_to_txt(file):
     excel_file = pd.DataFrame()
     excel_file_name = file[:-4] +".xlsx"
     excel_file.to_excel(excel_file_name)
-    book = openpyxl.load_workbook(json_data['path'] + excel_file_name)
+
+    if(platform=="linux"):
+        book = openpyxl.load_workbook("" + excel_file_name)
+    else:
+        book = openpyxl.load_workbook(json_data['path'] + excel_file_name)
     sheet = book.active
 
     sheet.sheet_view.rightToLeft = True    
@@ -45,8 +55,9 @@ def pdf_to_txt(file):
                 if(char.isnumeric()):
                     page_amount+=char
             page_amount= " out of  "+page_amount
-            val = val+ page_amount
-            write_data_in_information_file(val,file[:-4]+".txt")
+
+            val ="Page "+ page_num + page_amount
+            write_data_in_file(val,file[:-4]+".txt")
             for line in page.extract_text().split('\n'):
                 if have_found_file_type:                   
                     added_row = line_information_extractor(
@@ -78,7 +89,7 @@ def pdf_to_txt(file):
 
     
     # Adding the information to the information file
-    write_data_in_information_file("Finished extracting "+ file[:-4],file[:-4]+".txt")
+    write_data_in_file("Finished extracting "+ file[:-4],file[:-4]+".txt")
     
 
 
@@ -241,15 +252,15 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
     return row_added
 
 
-def write_data_in_information_file(value,filename):
+def write_data_in_file(value,filename):
     """writes in the information file the file name, and time of executing"""
     print(filename)
     information_file = open(filename, "a")
     information_file.write(value + " " + str(date.today().strftime("%d/%m/%Y")) + " " + str(time.strftime("%H:%M:%S", time.localtime()))+"\n")
     information_file.close()
-    write_data_in_information_file1(value)
+    write_data_in_information_file(value)
 
-def write_data_in_information_file1(value):    
+def write_data_in_information_file(value):    
     filename = "Information.txt"
     information_file = open(filename, "a")
     information_file.write(value + " " + str(date.today().strftime("%d/%m/%Y")) + " " + str(time.strftime("%H:%M:%S", time.localtime()))+"\n")
