@@ -141,7 +141,9 @@ def line_information_extractor(info, type_of_file, sheet, people_row_count, comp
 
             if type_of_file == 1:
                 # Finding the company ID and putting it in the excel               
-                company_id_value= get_ID_from_sentence(info)               
+                company_id_value= get_ID_from_sentence(info)
+                if(company_id_value== None):
+                    return 0               
                 company_id_value = company_id_value.replace(" ", "")
 
                 sheet.cell(row=company_row_count, column=5).value = company_id_value

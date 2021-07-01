@@ -36,10 +36,7 @@ def InformationExtruderAndLoopStarter():
     filename=filename.replace("/", '_')
     filename=filename.replace(":", '_')
     filename=filename.replace(" ", "")
-
-    #vars()['Process' + secure_filename(f.filename)[:-4]]=Process(target=pdf_to_txt,args=(secure_filename(f.filename),))
-    #vars()['Process' + secure_filename(f.filename)[:-4]].start()
-    #vars()['Process' + secure_filename(f.filename)[:-4]].join()
+  
     _thread.start_new_thread( pdfextract.pdf_to_txt, (filename, ) )
     return render_template('wait.html', value1=filename,value2 = "page : 0")    
 
