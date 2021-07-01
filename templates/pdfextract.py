@@ -1,5 +1,4 @@
 # This Python file uses the following encoding: utf-8
-from os import name
 import pdfplumber
 import pandas as pd
 import openpyxl
@@ -9,8 +8,8 @@ import time
 from datetime import date
 import json
 
-# json_file_name ='templates/config.json'
-json_file_name= 'config.json'
+json_file_name ='templates/config.json'
+# json_file_name= 'config.json'
 def pdf_to_txt(file):
     """ Converting every line in the pdf into a line into an excel it created with the name of the pdf + "result" """
     
@@ -416,10 +415,6 @@ def get_passport_name_from_sentence(info):
     return info
 
 
-#get_ID_name_from_sentence(" 17728/2013/1 1 / 2 300812641 ז.ת הנוי רואמ רכמ")
 #pdf_to_txt('352.pdf')
-#print(find_passport_name_shared_homes(info))
-#print(info[info.find("ןוכרד") - 10:info.find("ןוכרד") - 1])
-#print(info[info.find("ןוכרד") + 5:info.find("ןוכרד") + find_passport_name_shared_homes(info)][::-1])
 
 

@@ -47,10 +47,10 @@ def InformationExtruderAndLoopStarter():
 @app.route('/End', methods = ['GET', 'POST'])
 def LoopAndFileUploader():
   if request.method == "POST":
-    f = request.form.get("filename")
-    xl_result= secure_filename(f)[:-4]+" result.xlsx"
+    file_name = request.form.get("filename")
+    xl_result= secure_filename(file_name)[:-4]+" result.xlsx"
     try:
-      with open(f[:-4]+".txt") as file:
+      with open(file_name[:-4]+".txt") as file:
         for line in file:
           pass
         last_line = line  
@@ -60,7 +60,7 @@ def LoopAndFileUploader():
     if "Finished" in last_line: 
       return render_template('Finish.html', value1 = xl_result)
     else:
-      return render_template('wait.html', value1 = f, value2=last_line)
+      return render_template('wait.html', value1 = file_name, value2=last_line)
 
 # @app.route('/temp', methods = ['GET', 'POST'])
 # def a(val):
@@ -69,8 +69,8 @@ def LoopAndFileUploader():
 @app.route('/Finish', methods = ['GET', 'POST'])
 def EndAndUploadFile():
   if request.method == "POST":
-    f = request.form.get("filename")
-    return send_file("../"+str(f) +" result.xlsx", as_attachment=True)
+    file_name = request.form.get("filename")
+    return send_file("../"+str(file_name) +" result.xlsx", as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=False)
