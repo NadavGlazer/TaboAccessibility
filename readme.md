@@ -1,1 +1,0 @@
-<!-- TODO: add description for installation + running the program locally -->
