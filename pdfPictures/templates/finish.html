@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function myFunction() {
+            alert('{{pdf_name}}', "is ready to download");
+            document.getElementById("form").submit();
+        }
+    </script>
+</head>
+
+<body onload="myFunction()">
+    <div>
+        <h1 class="MainTitle">pdf file is ready!</h1>
+        <div class="divs">
+            <h4 style="margin-bottom:-8%; margin-top:15%; font-family: 'Roboto', sans-serif;">Click here if the file
+                didn`t download</h4>
+        </div>
+        <div class="divs">
+            <form action="{{ url_for('upload_file')}}" id="form" method="POST">
+                <input type="hidden" id="filename" name="filename" value={{ pdf_name }} readonly>
+                <button class="HomePageB" type="submit">Download</button>
+            </form>
+        </div>
+        <form action="./" class="divs">
+            <input class="HomePageB" type="submit" value="Home Page" />
+        </form>
+        <div>
+            <p class="CopyRightDiv"> Created by Nadav Glazer. © 2021</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
