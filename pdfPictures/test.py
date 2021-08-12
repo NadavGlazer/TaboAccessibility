@@ -9,87 +9,125 @@ import platform
 import pdfkit
 import os
 from PIL import Image
-import os
+import imgkit
+from fpdf import FPDF
+from html2image import Html2Image
 
 
 app = Flask(__name__)
-html_2_pic_template = """<html><head>
-  <meta charset="utf-8">
-  <title>My Page Title</title>
-  <style>
-   body {
-        height: 842px;
-        width: 595px;
-        /* to centre page on screen*/
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .PDiv {
-      margin: auto;
-      border: 3px solid black;
-      padding: 5px;
-      width: 300px;
-      height: 150px;
-      text-align: right;
-    }
+html_2_pic_template = """
+<!DOCTYPE html>
+<html lang="en">
 
-    .firstPic {
-      display: table-cell;
-      width:80%;      
-      
-      -webkit-transform: rotate(90deg);
-      -moz-transform: rotate(90deg);
-      -o-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
-      transform: rotate(90deg);
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .MainDiv {
+            width: 794px;
+            height: 1123px;
+        }
 
-    .thirdPic {
-      margin:auto; 
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      height: 20%;
-      margin-top:10px;  
-    }
+        .HeaderImage {
+            width: 750px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    .picDiv {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top:150px;
-      height: 30%;
+        .TitleDiv {
+            margin: auto;
+            border: 3px solid black;
+            padding: 5px;
+            width: 300px;
+            height: 100px;
+            margin-top: 10px;
+        }
+        .TitleText{
+            text-align: right;
+            margin-top: 0px;
+            white-space: pre-line;
+            line-height: 0.8;
+            font-size: 25px;
+            font-weight: 200;
+        }
+        .HorizontalPicsDiv {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
 
-    }
-  </style>
+        }
+
+        .FirstPicDiv {
+            display: table-cell;
+        }
+
+        .FirstImage {
+            width: 300px;
+            height: 480px;
+            margin-right: 1px;
+        }
+
+        .SecondPicDiv {
+            display: table-cell;
+        }
+
+        .SecondImage {
+            width: 300px;
+            height: 480px;
+            margin-left: 1px;
+        }
+
+        .VerticalPicDiv {
+            display: flex;
+            justify-content: center;
+            margin-top: -2px;
+        }
+
+        .ThirdImage {
+            width: 602px;
+            height: 350px;
+        }
+
+        .PageNumberDiv {
+            float: right;
+            margin-right: 30px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
-<body  width="2480" heigth="3508">
-  <div>
-    <div>
-      <img src="C:/Users/Nadav1/TaboProject/TaboAccessibility/header.jfif" width="1000">
-      </div>
-    <div class="PDiv">
-      <h2 style="white-space: pre-line;">text_from_form</h>
+<body>
+    <div class="MainDiv">
+        <img src="C:/Users/Nadav1/TaboProject/TaboAccessibility/header.jfif" class="HeaderImage">
+        <div class="TitleDiv">
+            <p class="TitleText">text_from_form</p>
+        </div>
+        <div class="HorizontalPicsDiv">
+            <div class="FirstPicDiv">
+                <img class="FirstImage" src="pic_one">
+            </div>
+            <div class="SecondPicDiv">
+                <img class="SecondImage" src="pic_two">
+            </div>
+        </div>
+        <div class="VerticalPicDiv">
+            <img class="ThirdImage" src="pic_three">
+        </div>
+        <div class="PageNumberDiv">
+            <h2>page_number</h2>
+        </div>
     </div>
-    <div class="picDiv">
-      <div class="firstPic">
-          <img style="width:550px;height:400px;object-fit: fill;margin-bottom:10px;" src="pic_one">
-          <img style="width:550px;height:400px;object-fit: fill;" src="pic_two">
-      </div>     
-    </div>
-    <div class="thirdPic">
-        <img style="width:800px;height:100px;object-fit: fill;" src="pic_three">   
-      </div>  
-
-    <div style="float:right; margin-bottom:0%;">
-        <h2>page_number</h2>
-    </div>
-  </div>
 
 </body>
+
 </html>"""
-UPLOAD_FOLDER = "pdfpictures/static/uploads/"
+# UPLOAD_FOLDER = "pdfpictures/static/uploads/"
+UPLOAD_FOLDER = (
+    "C:/Users/Nadav1/TaboProject/TaboAccessibility/pdfPictures/static/uploads/"
+)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_PATH"] = 10000
 app.config["TIME_OUT"] = 0
@@ -148,8 +186,8 @@ def trying():
             segment_amount += 1
         print(information)
 
-        final_htmls = []
-        page_counter=1
+        final_images = []
+        page_counter = 1
         for part in information:
             if part[1] == 3:
                 html_template = set_html_template(
@@ -159,7 +197,7 @@ def trying():
                     str(part[2]),
                     html_2_pic_template,
                     page_counter,
-                    part[0],                    
+                    part[0],
                 )
             html_filename = str(part[0]) + "__" + str(current_time) + ".html"
             html_filename = html_filename.replace("/", "_")
@@ -168,21 +206,21 @@ def trying():
             f = open(html_filename, "a", encoding="utf-8")
             f.write(html_template)
             f.close()
-            final_htmls.append(html_filename)
-            page_counter+=1
-        print(final_htmls)
-        options = {
-            "enable-local-file-access": None,
-            "page-size": "Letter",
-            "margin-top": "0.75in",
-            "margin-right": "0.75in",
-            "margin-bottom": "0.75in",
-            "margin-left": "0.75in",
-            "encoding": "UTF-8",
-            "no-outline": None,
-        }
 
-        pdfkit.from_file(final_htmls, current_time + ".pdf", options=options)
+            hti = Html2Image()
+            hti.screenshot(
+                html_file=html_filename, save_as=(html_filename[:-5] + ".PNG"), size=(794, 1123)
+            )
+            final_images.append(html_filename[:-5] + ".PNG")
+            page_counter += 1
+        print(final_images)
+
+        pdf = FPDF()
+        for image in final_images:
+            pdf.add_page()
+            pdf.image("header.png", w = 190, h=15)
+            pdf.image(image, w = 190, h = 246,type="PNG")
+        pdf.output(current_time + ".pdf", "F")
         print(current_time + ".pdf")
     return render_template("finish.html", pdf_name=current_time + ".pdf")
 
@@ -194,20 +232,16 @@ def upload_file():
     return send_file("../" + file_name, as_attachment=True)
 
 
-@app.route("/display/<filename>")
-def display_image(filename):
-    # print('display_image filename: ' + filename)
-    return redirect(url_for("static", filename="uploads/" + filename))
-
-
 def set_html_template(
-    pic_one, pic_two,pic_three, text, html_2_pic_template, page_num, page_amount
+    pic_one, pic_two, pic_three, text, html_2_pic_template, page_num, page_amount
 ):
-    html_template = html_2_pic_template
+    f = open("pdfPictures/templates/3pic.html", "r")
+    html_template= f.read()
+    f.close()
+
     html_template = html_template.replace("pic_one", pic_one)
     html_template = html_template.replace("pic_two", pic_two)
     html_template = html_template.replace("pic_three", pic_three)
-
 
     html_template = html_template.replace("text_from_form", text)
     html_template = html_template.replace(
