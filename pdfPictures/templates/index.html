@@ -20,6 +20,18 @@
             margin-top: 1%;
         }
 
+        .SubmitButton {
+            height: 200px;
+            width: 300px;
+            align-items: center;
+            margin: auto;
+        }
+        .FormDiv{
+            display: flex;
+            justify-content: center;
+            margin-top: 400px;
+        }
+
         .textInput {
             text-align: right;
             max-width: 200px;
@@ -44,7 +56,7 @@
 <body>
     <div>
         <h1 class="MainTitle">pic to pdf </h1>
-        <form action="/Star" method="POST" enctype="multipart/form-data" action=clear
+        <!-- <form action="/Star" method="POST" enctype="multipart/form-data" action=clear
             onsubmit="if(document.getElementById('file').value == '') return false;">
             <div>
                 <p style="margin-top: 0%;" id="formP1"></p>
@@ -102,16 +114,18 @@
 
             </div>
             <button type="submit">Extract Data</button>
+        </form> -->
+
+        <form action="/LoopStarter" method="POST" enctype="multipart/form-data">
+            <div class="FormDiv">
+                <button type="submit" class="SubmitButton" name="Mixed" value="Mixed">Mixed pictues</button>
+                <button type="submit" class="SubmitButton" name="Vertical" value="Vertical">Vertical pictures</button>
+            </div>
         </form>
         <div>
             <p class="CopyRightDiv"> Created by Nadav Glazer. © 2021</p>
         </div>
     </div>
-    <!-- <button form= "POST" id="buttonPress" name= "aa"> aaaaaa</button>
-       
-
-
-        <button> <a href="/pdfextract1/">Click me 73</a></button>
-        <button> <a href="/pdfextract2/">Click me 678</a></button> -->
+  
 
 </body>
