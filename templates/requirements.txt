@@ -8,3 +8,7 @@ pandas
 platform
 Flask
 pdfkit
+os
+FPDF
+Html2Image
+randint
