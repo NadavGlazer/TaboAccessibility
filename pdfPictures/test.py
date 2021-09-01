@@ -4,18 +4,15 @@
 # TODO: use pylint on files when you finish a major work
 # TODO: always use auto save
 # TODO: use winkey+V
+import json
 import os
 from random import randint
 
-from flask import Flask, redirect, render_template, request, send_file, url_for
-from flask.helpers import send_from_directory
+import utils
+from flask import Flask, render_template, request, send_file
 from fpdf import FPDF
 from html2image import Html2Image
-from pdfkit.api import from_file
 from werkzeug.utils import secure_filename
-import utils
-import json
-
 
 app = Flask(__name__)
 # TODO: add this information to readme and move to config.json file
@@ -31,6 +28,7 @@ app.config["TIME_OUT"] = json_data["TIME_OUT"]
 # TODO: remove prints and use logger - https://flask.palletsprojects.com/en/2.0.x/logging/
 @app.route("/")
 def index():
+    """Starts the website"""
     print(request.cookies)
     print(request.remote_addr)
     return render_template("index.html")
@@ -38,7 +36,8 @@ def index():
 
 # TODO: remove get
 @app.route("/LoopStarter", methods=["POST"])
-def LoopStarter():
+def loop_starter():
+    """Sends the user to his destination, with the needed information"""
     if request.method == "POST":
         # TODO: dont use saved word id
         file_id = randint(
@@ -47,7 +46,9 @@ def LoopStarter():
         current_time = utils.get_current_time()
         # TODO: move the file name creation to utils class
         # TODO: read about context managers (with open ....)
-        open(utils.generate_text_file_name(file_id, current_time), "a").close()
+        open(
+            utils.generate_text_file_name(file_id, current_time), "a", encoding="utf-8"
+        ).close()
 
         # TODO: read about short if
         if request.form.get("Mixed"):
@@ -64,7 +65,8 @@ def LoopStarter():
 
 
 @app.route("/LoopContinue", methods=["POST"])
-def LoopContinue():
+def loop_continue():
+    """Continues the loop or ending it, creating the pictures and the pdf"""
     if request.method == "POST":
         # Extracting all the info from the form, both the hidden and the shown
         title_text = request.form.get("TitleTextF")
@@ -73,7 +75,7 @@ def LoopContinue():
         third_pic = request.files.get("ThirdPic")
         current_time = request.form.get("CurrentTime")
         file_id = request.form.get("FileID")
-        TemplateType = request.form.get("TemplateType")
+        template_type = request.form.get("TemplateType")
         page_number = request.form.get("PageNumber")
 
         if (
@@ -86,13 +88,17 @@ def LoopContinue():
 
             temp_info = ""
 
-            # "Information" has the following data: page number, pic amount, html template, title text, the pictures
+            # "Information" has the following data: page number,
+            #  pic amount, html template, title text, the pictures
+
             temp_info = page_number
-            temp_info = temp_info + "*" + str(TemplateType[0])
-            temp_info = temp_info + "*" + str(TemplateType)
+            temp_info = temp_info + "*" + str(template_type[0])
+            temp_info = temp_info + "*" + str(template_type)
             temp_info = utils.get_fixed_title_text(temp_info, title_text)
 
-            # Saving the first picure with the id,time and number and page number and saving in in the information array
+            # Saving the first picure with the id
+            # ,time and number and page number and saving in in the information array
+
             temp_file_name = secure_filename(first_pic.filename)
             file_type = utils.get_file_type(temp_file_name)
             file_name = utils.generate_picture_file_name(
@@ -101,7 +107,9 @@ def LoopContinue():
             first_pic.save(os.path.join(app.config["UPLOAD_FOLDER"], file_name))
             temp_info = temp_info + "*" + str(app.config["UPLOAD_FOLDER"] + file_name)
 
-            # Saving the second picure with the id,time and number and page number and saving in in the information array
+            # Saving the second picure with the id,
+            # time and number and page number and saving in in the information array
+
             temp_file_name = secure_filename(second_pic.filename)
             file_type = utils.get_file_type(temp_file_name)
             file_name = utils.generate_picture_file_name(
@@ -110,7 +118,9 @@ def LoopContinue():
             second_pic.save(os.path.join(app.config["UPLOAD_FOLDER"], file_name))
             temp_info = temp_info + "*" + str(app.config["UPLOAD_FOLDER"] + file_name)
 
-            # Saving the third picure with the id,time and number and page number and saving in in the information array
+            # Saving the third picure with the id,
+            # time and number and page number and saving in in the information array
+
             temp_file_name = secure_filename(third_pic.filename)
             file_type = utils.get_file_type(temp_file_name)
             file_name = utils.generate_picture_file_name(
@@ -121,13 +131,12 @@ def LoopContinue():
 
             print(temp_info)
 
-            text_file = open(
+            with open(
                 utils.generate_text_file_name(file_id, current_time),
                 "a",
                 encoding="utf-8",
-            )
-            text_file.write(temp_info + "\n")
-            text_file.close()
+            ) as text_file:
+                text_file.write(temp_info + "\n")
 
             page_number = int(page_number)
             page_number += 1
@@ -147,21 +156,19 @@ def LoopContinue():
                 PageNumber=page_number,
             )
         else:
-            text_file = open(
+            information = []
+            with open(
                 utils.generate_text_file_name(file_id, current_time),
                 "r+",
                 encoding="utf-8",
-            )
-
-            information = []
-            for line in text_file:
-                information.append(line.split("*"))
+            ) as text_file:
+                for line in text_file:
+                    information.append(line.split("*"))
 
             print(information)
 
-            if information == None:
+            if information is None:
                 return render_template("index.html")
-            text_file.close()
 
             final_images = []
             page_amount = information[-1][0]
@@ -212,8 +219,10 @@ def LoopContinue():
 
 @app.route("/UploadFile", methods=["GET", "POST"])
 def upload_file():
+    """Sends the user the finished pdf"""
     file_name = request.form.get("filename")
     return send_file("../" + file_name, as_attachment=True)
+
 
 if __name__ == "__main__":
     app.run(debug=False)
