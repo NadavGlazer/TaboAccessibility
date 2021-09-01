@@ -47,7 +47,9 @@ def loop_starter():
             utils.generate_text_file_name(file_id, current_time), "a", encoding="utf-8"
         ).close()
 
-        app.logger.info("Each line in the info file is in the following order, seperated by a '*' : page number, amount of images, template name, text, path of each image")
+        app.logger.info(
+            "Each line in the info file is in the following order, seperated by a '*' : page number, amount of images, template name, text, path of each image"
+        )
 
         # TODO: read about short if
         if request.form.get("Mixed"):
@@ -132,9 +134,8 @@ def loop_continue():
 
             page_number = int(page_number)
             page_number += 1
-            
+
         if is_new_mix_page or is_new_vertical_page:
-            temp_template = ""
             temp_template = (
                 json_data["3_images_vertical_html_template_name"]
                 if not is_new_mix_page
@@ -146,7 +147,9 @@ def loop_continue():
                 Time=current_time,
                 PageNumber=page_number,
             )
+
         else:
+
             information = []
             with open(
                 utils.generate_text_file_name(file_id, current_time),
@@ -156,25 +159,26 @@ def loop_continue():
                 for line in text_file:
                     information.append(line.split("*"))
 
-            app.logger.info("this project`s info : %s", information)
             if not information:
                 app.logger.info("0 pages were submitted, sending to home page")
                 return render_template("index.html")
+            
+            app.logger.info("this project`s info : %s", information)
 
             final_images = []
             page_amount = information[-1][0]
             for part in information:
                 html_template = utils.set_html_template(
-                    str(part[4]),
-                    str(part[5]),
-                    str(part[6]),
-                    str(part[3]),
+                    part[4],
+                    part[5],
+                    part[6],
+                    part[3],
                     part[0],
                     page_amount,
-                    str(part[2]),
+                    part[2],
                 )
                 image_file_name = utils.generate_page_image_file_name(
-                    str(part[0]), file_id, current_time, json_data["page_image_type"]
+                    part[0], file_id, current_time, json_data["page_image_type"]
                 )
                 hti = Html2Image()
                 hti.screenshot(

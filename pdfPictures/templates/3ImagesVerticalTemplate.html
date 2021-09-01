@@ -168,7 +168,7 @@
     <div class="MainDiv">
         <!-- <img src="C:/Users/Nadav1/TaboProject/TaboAccessibility/header.png" class="HeaderImage"> -->
         <div class="TitleDiv">
-            <p class="TitleText" id="TitleText">text_from_form</p>
+            <p class="TitleText" id="TitleText">title</p>
         </div>
         <div class="FirstPicDiv">
             <img class="FirstImage" id="pic_one" src="pic_one">
@@ -204,11 +204,10 @@
                         onchange="LoadThirdImage(event)" />
                 </div>
 
-                <input type="text" hidden id="FileID" name="FileID" value={{FileID}}>
-                <input type="text" hidden id="CurrentTime" name="CurrentTime" value={{Time}}>
-                <input type="text" hidden id="TemplateType" name="TemplateType" value="3ImagesVertical">
-                <input type="text" hidden id="PageNumber" name="PageNumber" value="{{PageNumber}}">
-
+                <input type="hidden"  id="FileID" name="FileID" value={{FileID}} readonly>
+                <input type="hidden"  id="CurrentTime" name="CurrentTime" value={{Time}} readonly>
+                <input type="hidden"  id="TemplateType" name="TemplateType" value="3ImagesMix" readonly>
+                <input type="hidden"  id="PageNumber" name="PageNumber" value={{PageNumber}} readonly>
 
                 <div class="SubmitButtonDiv">
 
