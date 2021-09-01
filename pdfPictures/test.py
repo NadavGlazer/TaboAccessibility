@@ -5,7 +5,6 @@
 # TODO: always use auto save
 # TODO: use winkey+V
 import json
-import os
 from random import randint
 
 import utils
@@ -29,8 +28,6 @@ app.config["TIME_OUT"] = json_data["TIME_OUT"]
 @app.route("/")
 def index():
     """Starts the website"""
-    print(request.cookies)
-    print(request.remote_addr)
     return render_template("index.html")
 
 
@@ -49,6 +46,8 @@ def loop_starter():
         open(
             utils.generate_text_file_name(file_id, current_time), "a", encoding="utf-8"
         ).close()
+
+        app.logger.info("Each line in the info file is in the following order, seperated by a '*' : page number, amount of images, template name, text, path of each image")
 
         # TODO: read about short if
         if request.form.get("Mixed"):
@@ -78,12 +77,15 @@ def loop_continue():
         template_type = request.form.get("TemplateType")
         page_number = request.form.get("PageNumber")
 
+        is_new_mix_page = request.form.get("NewMix")
+        is_new_vertical_page = request.form.get("NewVertical")
+
         if (
             "application/octet-stream" in str(first_pic)
             or "application/octet-stream" in str(second_pic)
             or "application/octet-stream" in str(third_pic)
         ):
-            print("Got no files")
+            app.logger.info("Page number %s is missing at least one image", page_number)
         else:
 
             temp_info = ""
@@ -98,38 +100,28 @@ def loop_continue():
 
             # Saving the first picure with the id
             # ,time and number and page number and saving in in the information array
-
-            temp_file_name = secure_filename(first_pic.filename)
-            file_type = utils.get_file_type(temp_file_name)
-            file_name = utils.generate_picture_file_name(
-                file_type, file_id, current_time, page_number, 1
+            file_type = utils.get_file_type(secure_filename(first_pic.filename))
+            temp_info = temp_info + utils.save_image(
+                file_type, file_id, current_time, page_number, 1, first_pic, app
             )
-            first_pic.save(os.path.join(app.config["UPLOAD_FOLDER"], file_name))
-            temp_info = temp_info + "*" + str(app.config["UPLOAD_FOLDER"] + file_name)
 
             # Saving the second picure with the id,
             # time and number and page number and saving in in the information array
 
-            temp_file_name = secure_filename(second_pic.filename)
-            file_type = utils.get_file_type(temp_file_name)
-            file_name = utils.generate_picture_file_name(
-                file_type, file_id, current_time, page_number, 2
+            file_type = utils.get_file_type(secure_filename(second_pic.filename))
+            temp_info = temp_info + utils.save_image(
+                file_type, file_id, current_time, page_number, 2, second_pic, app
             )
-            second_pic.save(os.path.join(app.config["UPLOAD_FOLDER"], file_name))
-            temp_info = temp_info + "*" + str(app.config["UPLOAD_FOLDER"] + file_name)
 
             # Saving the third picure with the id,
             # time and number and page number and saving in in the information array
 
-            temp_file_name = secure_filename(third_pic.filename)
-            file_type = utils.get_file_type(temp_file_name)
-            file_name = utils.generate_picture_file_name(
-                file_type, file_id, current_time, page_number, 3
+            file_type = utils.get_file_type(secure_filename(third_pic.filename))
+            temp_info = temp_info + utils.save_image(
+                file_type, file_id, current_time, page_number, 3, third_pic, app
             )
-            third_pic.save(os.path.join(app.config["UPLOAD_FOLDER"], file_name))
-            temp_info = temp_info + "*" + str(app.config["UPLOAD_FOLDER"] + file_name)
 
-            print(temp_info)
+            app.logger.info("Page %s information : %s", page_number, temp_info)
 
             with open(
                 utils.generate_text_file_name(file_id, current_time),
@@ -140,17 +132,16 @@ def loop_continue():
 
             page_number = int(page_number)
             page_number += 1
-
-        if request.form.get("NewVertical"):
-            return render_template(
-                json_data["3_images_vertical_html_template_name"],
-                FileID=file_id,
-                Time=current_time,
-                PageNumber=page_number,
+            
+        if is_new_mix_page or is_new_vertical_page:
+            temp_template = ""
+            temp_template = (
+                json_data["3_images_vertical_html_template_name"]
+                if not is_new_mix_page
+                else json_data["3_images_mixed_html_template_name"]
             )
-        elif request.form.get("NewMix"):
             return render_template(
-                json_data["3_images_mixed_html_template_name"],
+                temp_template,
                 FileID=file_id,
                 Time=current_time,
                 PageNumber=page_number,
@@ -165,9 +156,9 @@ def loop_continue():
                 for line in text_file:
                     information.append(line.split("*"))
 
-            print(information)
-
-            if information is None:
+            app.logger.info("this project`s info : %s", information)
+            if not information:
+                app.logger.info("0 pages were submitted, sending to home page")
                 return render_template("index.html")
 
             final_images = []
@@ -195,7 +186,7 @@ def loop_continue():
                     ),
                 )
                 final_images.append(image_file_name)
-            print(final_images)
+            app.logger.info("Page images paths : %s", final_images)
 
             pdf = FPDF()
             for image in final_images:
@@ -213,7 +204,9 @@ def loop_continue():
                 )
             pdf_file_name = utils.generate_pdf_file_name(file_id, current_time)
             pdf.output(pdf_file_name, "F")
-            print(pdf_file_name)
+
+            app.logger.info("Final pdf name : %s", pdf_file_name)
+
         return render_template("finish.html", pdf_name=pdf_file_name)
 
 
@@ -225,4 +218,4 @@ def upload_file():
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

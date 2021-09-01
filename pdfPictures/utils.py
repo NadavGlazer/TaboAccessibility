@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 
 def generate_text_file_name(file_id, current_time):
@@ -9,6 +10,15 @@ def generate_text_file_name(file_id, current_time):
 def get_fixed_title_text(temp_info, title_text):
     """Adding the fixed title text to the string and returning it"""
     return temp_info + "*" + str(title_text).replace("  ", " ").replace("*", "@")
+
+def save_image(file_type, file_id, current_time, page_number, serial_number, picture, app):
+    """Gets the picuture and the needed parameters and saves it, returns the requird data"""
+    file_name = generate_picture_file_name(
+            file_type, file_id, current_time, page_number, serial_number
+        )
+    picture.save(os.path.join(app.config["UPLOAD_FOLDER"], file_name))
+    return "*" + str(app.config["UPLOAD_FOLDER"] + file_name)
+
 
 
 def get_file_type(file_name):
