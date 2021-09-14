@@ -9,7 +9,20 @@ def generate_text_file_name(file_id, current_time):
 
 def get_fixed_title_text(temp_info, title_text):
     """Adding the fixed title text to the string and returning it"""
-    return temp_info + "*" + str(title_text).replace("  ", " ").replace("*", "@")
+    print(title_text)
+    text =str(title_text).replace("  ", " ").replace("*", "@").replace("$","@").replace("\r","").replace("\n","$").replace(" $","$")
+    #text =str(title_text).replace("\n","$").replace("\r","")
+    #text= str("")
+    # for line in title_text.split("\n"):
+    #text = '\t'.join([line.strip()+("$") for line in title_text])
+        
+        # print(line)
+        # text+= line +"$"
+        # print(text)
+    #print(text)
+    #text= text[:-1]
+    print(text)
+    return temp_info + "*" + text
 
 
 def save_image(
@@ -59,6 +72,7 @@ def set_html_template(
         .replace("pic_three", pic_three)
         .replace("text_from_form", text)
         .replace("page_number", "עמוד " + str(page_num) + " מתוך " + str(page_amount))
+        .replace("$","\n")
     )
 
 

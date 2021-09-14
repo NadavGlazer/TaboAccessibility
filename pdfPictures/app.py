@@ -166,7 +166,12 @@ def loop_continue():
             app.logger.info("this project`s info : %s", information)
 
             final_images = []
-            page_amount = information[-1][0]
+            for part in information[-1]:
+                page_amount = part
+                break
+
+           
+
             for part in information:
                 html_template = utils.set_html_template(
                     part[4],
@@ -222,4 +227,4 @@ def upload_file():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0")

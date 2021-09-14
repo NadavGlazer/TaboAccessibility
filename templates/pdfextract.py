@@ -75,12 +75,9 @@ def pdf_to_txt(file):
                     elif added_row == 3:
                         passport_row_count += 1
                 else:
-                    if find_file_type(line, sheet) == 1:
+                    file_type = find_file_type(line, sheet)
+                    if file_type != 0:
                         have_found_file_type = True
-                        file_type = 1
-                    elif find_file_type(line, sheet) == 2:
-                        have_found_file_type = True
-                        file_type = 2
 
         # Adding titles
     write_excel_titles(sheet)
@@ -166,6 +163,27 @@ def line_information_extractor(
                 print(id_value)
                 print(name_value)
 
+            if type_of_file == 3:
+                # Find the ID
+                id_value = id_value = get_ID_from_sentence(info)
+                id_value = id_value.replace(" ", "")
+
+                sheet.cell(
+                    row=people_row_count,
+                    column=1,
+                ).value = id_value
+                sheet.cell(row=people_row_count, column=1).font = Font(
+                    size=11, bold=False
+                )
+
+                # Finding the name
+                name_value = get_ID_name_from_sentence(info)[::-1]
+                name_value = name_value.replace("  ", " ")
+
+                sheet.cell(row=people_row_count, column=2).value = name_value
+                sheet.cell(row=people_row_count, column=2).font = Font(
+                    size=11, bold=False
+                )
             # Adding 1 to the index of where the program will write
             sheet.cell(row=people_row_count, column=3).value = page
             sheet.cell(row=people_row_count, column=3).font = Font(size=11, bold=False)
@@ -205,6 +223,29 @@ def line_information_extractor(
                 print(company_id_value)
 
             if type_of_file == 2:
+                # Finding the company ID and putting it in the excel
+                company_id_value = get_ID_from_sentence(info)
+                if company_id_value == None:
+                    return 0
+                company_id_value = company_id_value.replace(" ", "")
+
+                sheet.cell(row=company_row_count, column=5).value = company_id_value
+                sheet.cell(row=company_row_count, column=5).font = Font(
+                    size=11, bold=False
+                )
+
+                # Finding the name
+                company_name_value = get_company_name_from_sentence(info)
+
+                sheet.cell(row=company_row_count, column=6).value = company_name_value
+                sheet.cell(row=company_row_count, column=6).font = Font(
+                    size=11, bold=False
+                )
+
+                # Printing for debugging
+                print(company_name_value)
+                print(company_id_value)
+            if type_of_file == 3:
                 # Finding the company ID and putting it in the excel
                 company_id_value = get_ID_from_sentence(info)
                 if company_id_value == None:
@@ -282,7 +323,24 @@ def line_information_extractor(
 
                 print(passport_value)
                 print(passport_name_value)
+                
+            if type_of_file == 3:
+                passport_value = get_passport_from_sentence(info)
+                if passport_value == None:
+                    return 0
+                sheet.cell(row=passport_row_count, column=8).value = passport_value
+                sheet.cell(row=passport_row_count, column=8).font = Font(
+                    size=11, bold=False
+                )
 
+                passport_name_value = get_passport_name_from_sentence(info)
+                sheet.cell(row=passport_row_count, column=9).value = passport_name_value
+                sheet.cell(row=passport_row_count, column=9).font = Font(
+                    size=11, bold=False
+                )
+
+                print(passport_value)
+                print(passport_name_value)
             # Adding 1 to the index of where the program will write
             sheet.cell(row=passport_row_count, column=10).value = page
             sheet.cell(row=passport_row_count, column=10).font = Font(
@@ -370,6 +428,10 @@ def find_file_type(info, sheet):
         print(info)
         write_file_type_in_excel("פנקס זכויות", sheet)
         return 2
+    elif "תורטשה סקנפמ" in info:
+        print(info)
+        write_file_type_in_excel("פנקס השטרות", sheet)
+        return 3
     else:
         return 0
 
