@@ -45,7 +45,7 @@
             border: none;
             width: 508px;
             height: 35px;
-            margin-top: -20px;
+            margin-top: 80px;
             margin-left: -4px;
             border-radius: 4px;
             border-bottom: 4px solid #117A60;
@@ -72,6 +72,18 @@
             text-align: center;
             margin-top: 1%;
         } 
+        .custom-select {
+            position: relative;
+            font-family: Arial;
+            width:200px;
+            text-align:center;
+            margin-left: 30%;
+        }
+
+        .custom-select select {
+            display: none; /*hide original SELECT element:*/
+        }
+        
     </style>
 
     <script language="JavaScript">
@@ -86,15 +98,23 @@
 <body>
     <div>
         <h1 class="MainTitle">PDF to XLSX Tabo convertor</h1>
+    </div>
+    <div>
         <form action="/Start" method="POST" enctype="multipart/form-data" action=clear
             onsubmit="if(document.getElementById('file').value == '') return false;">
             <input type="file" name="file" id="file" onchange="inform()" />
             <p id="formP">Drag your pdf file here or click in this area.</p>
+            
+            <select class="custom-select" name="File_Type" id="File_Type">
+                <option id="SharedHomes" value ="SharedHomes" >בתים משותפים</option>
+                <option id="RightsNotepad" value ="RightsNotepad">פנקס זכויות</option>
+                <option id="BankNoteNotepad" value ="BankNoteNotepad">פנקס שטרות</option>
+            </select>
             <button type="submit">Extract Data</button>
         </form>
-        <div>
-            <p class="CopyRightDiv"> Created by Nadav Glazer. © 2021</p>
-        </div>
+    </div>
+    <div>
+        <p class="CopyRightDiv"> Created by Nadav Glazer. © 2021</p>
     </div>
     <!-- <button form= "POST" id="buttonPress" name= "aa"> aaaaaa</button>
        

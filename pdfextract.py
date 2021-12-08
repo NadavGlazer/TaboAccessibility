@@ -86,8 +86,7 @@ def pdf_to_txt(file):
 
     new_excel_file_name = excel_file_name[:-5] + " result.xlsx"
     book.title = new_excel_file_name
-    book.save(new_excel_file_name)
-
+ 
     # Adding the information to the information file
     write_data_in_file("Finished extracting " + file[:-4], file[:-4] + ".txt")
 
